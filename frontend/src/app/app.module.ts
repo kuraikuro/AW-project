@@ -11,6 +11,8 @@ import { WishComponent } from './components/wish/wish.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { CreateuserComponent } from './components/createuser/createuser.component';
+
 
 
 
@@ -21,7 +23,8 @@ import { HomepageComponent } from './components/homepage/homepage.component';
     WishComponent,
     SigninComponent,
     CommentComponent,
-    HomepageComponent
+    HomepageComponent,
+    CreateuserComponent
     
   ],
   imports: [
