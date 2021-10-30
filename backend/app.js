@@ -1,6 +1,11 @@
 const expressFunction = require('express');
 const mongoose = require('mongoose');
 var expressApp = expressFunction();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const key = 'KEY';
+
 const url = 'mongodb://localhost:27017/Noveldatabase';
 const config = {
 autoIndex: true,
@@ -89,6 +94,7 @@ expressApp.use((req, res, next) => {
     });
 });
 
+
 /*Novels */
 const addNovel = (novelData) => {
     return new Promise((resolve,reject) => {
@@ -162,19 +168,54 @@ const getOneNovel = (novelid) => {
 }
 
 /*Users*/
-const addUser = (userData) => {
-    return new Promise((resolve,reject) => {
-        var new_user = new Users(
-            userData
-        );
+const makeHash = async(plainText) => {
+    const result = await bcrypt.hash(plainText,10);
+    return result;
+}
+
+const inserUser = (dataUser) => {
+    return new Promise ((resolve, reject) => {
+        var new_user = new Users({
+            username: dataUser.username,
+            password: dataUser.password,
+            email: dataUser.email
+        });
         new_user.save((err,data) => {
             if(err){
-                reject(new Error('Cannot insert user to DB'));
+                reject(new Error('Cannot insert user to DB!'));
             }else{
-                resolve({message: 'user added successfully'});
+                resolve({message: 'Singn up successfully'});
             }
         });
     });
+}
+
+const compareHash = async(plainText,hashText) => {
+    return new Promise((resolve,reject) => {
+        bcrypt.compare(plainText, hashText, (err,data)=>{
+            if(err){
+                reject(new Error('Error bcrypt compare'))
+            }else{
+                resolve({status: data});
+            }
+        })
+    });
+}
+
+const findUser = (username) => {
+    return new Promise((resolve, reject) => {
+        Users.findOne({username: username},(err, data) => {
+            if(err){
+                reject(new Error('Cannont find username!'));
+            }else{
+                if(data){
+                    resolve({id: data._id,username: data.username, password: data.password})
+                }else{
+                    reject(new Error('Cannont find username!'));
+                }
+            }
+        })
+    })
 }
 
 /*Comments */
@@ -268,17 +309,50 @@ expressApp.post('/novel/add',(req,res)=>{
             console.log(err);
         })
 });
-expressApp.post('/user/add',(req,res)=>{
-    console.log('add');
-    addUser(req.body)
-        .then(result => {
-            console.log(result);
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+expressApp.post('/user/signup',(req,res)=>{
+    makeHash(req.body.password)
+            .then(hashText => {
+                const playload = {
+                    username: req.body.username,
+                    password: hashText,
+                    email: req.body.email
+                }
+                console.log(playload);
+                inserUser(playload)
+                .then(result => {
+                    console.log(result);
+                    res.status(200).json(result);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            })
+            .catch(err => {
+            })
 });
+expressApp.post('/login/signin',async(req,res) => {
+    const playload = {
+        username: req.body.username,
+        password: req.body.password
+    };
+    console.log(playload);
+    try{
+        const result =await findUser(playload.username);
+        const loginStatus = await compareHash(playload.password, result.password);
+        const status = loginStatus.status;
+
+        if(status){
+            const token = jwt.sign(result, key, {expiresIn: 60*5});
+            res.status(200).json({result,token,status});
+            console.log(token)
+        }else{
+            res.status(200).json({status});
+        }
+    }catch(error){
+        console.log(err);
+        res.status(404).send(error);
+    }
+})
 expressApp.post('/wish/add',(req,res)=>{
     console.log('add');
     addWish(req.body)
