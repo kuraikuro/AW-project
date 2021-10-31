@@ -17,7 +17,8 @@ export class CreateComponent implements OnInit {
 	  publisher : new FormControl('',[Validators.required]),
     file: new FormControl('',[Validators.required]),
 	  urlimg : new FormControl('',[Validators.required]),
-  })
+  });
+  
   previewLoaded: boolean = false;
 
   constructor( private cn: NovelService) { }
@@ -50,7 +51,7 @@ export class CreateComponent implements OnInit {
         reader.onload = () => {
           this.previewLoaded = true;
           this.createForm.patchValue({
-            img: reader.result
+            urlimg: reader.result
           });
         };
       }
