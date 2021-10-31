@@ -30,9 +30,7 @@ import { UpdatenovelComponent } from './components/updatenovel/updatenovel.compo
     WishComponent,
     SigninComponent,
     CommentComponent,
-    ShowcommentComponent
-
-  
+    ShowcommentComponent,
     HomepageComponent,
     CreateuserComponent,
     ShownovelComponent,
