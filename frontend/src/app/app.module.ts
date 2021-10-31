@@ -10,11 +10,15 @@ import { CreateComponent } from './components/create/create.component';
 import { WishComponent } from './components/wish/wish.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { CommentComponent } from './components/comment/comment.component';
+
+import { ShowcommentComponent } from './components/showcomment/showcomment.component';
+
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { CreateuserComponent } from './components/createuser/createuser.component';
 import { ShownovelComponent } from './components/shownovel/shownovel.component';
 import { ShownovelinformationComponent } from './components/shownovelinformation/shownovelinformation.component';
 import { UpdatenovelComponent } from './components/updatenovel/updatenovel.component';
+
 
 
 
@@ -26,11 +30,15 @@ import { UpdatenovelComponent } from './components/updatenovel/updatenovel.compo
     WishComponent,
     SigninComponent,
     CommentComponent,
+    ShowcommentComponent
+
+  
     HomepageComponent,
     CreateuserComponent,
     ShownovelComponent,
     ShownovelinformationComponent,
     UpdatenovelComponent
+
     
   ],
   imports: [
