@@ -39,4 +39,17 @@ export class ShownovelinformationComponent implements OnInit {
       console.log(error)
     }
   }
+  ClickaddWish(){
+    try{
+      this.ps.addWish(this.nid).subscribe(
+        data => {
+          this.novel = data;
+        },
+          err=>{
+            console.log(err)
+          });
+    }catch(error){
+      console.log(error)
+    }
+  }
 }

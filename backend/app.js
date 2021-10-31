@@ -295,8 +295,6 @@ const getSomeWish = (userid) => {
 }
 
 
-
-
 /*Route */
 expressApp.post('/novel/add',(req,res)=>{
     console.log('add novel');
