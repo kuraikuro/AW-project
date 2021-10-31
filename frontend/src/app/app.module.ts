@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AngularWebStorageModule } from 'angular-web-storage';
 
 import { HttpClientModule} from '@angular/common/http';
 import { CreateComponent } from './components/create/create.component';
@@ -30,23 +31,20 @@ import { UpdatenovelComponent } from './components/updatenovel/updatenovel.compo
     WishComponent,
     SigninComponent,
     CommentComponent,
-    ShowcommentComponent
-
-  
+    ShowcommentComponent,
     HomepageComponent,
     CreateuserComponent,
     ShownovelComponent,
     ShownovelinformationComponent,
     UpdatenovelComponent
-
-    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AngularWebStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]
