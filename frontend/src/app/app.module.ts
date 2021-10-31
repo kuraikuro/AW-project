@@ -12,6 +12,9 @@ import { SigninComponent } from './components/signin/signin.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { CreateuserComponent } from './components/createuser/createuser.component';
+import { ShownovelComponent } from './components/shownovel/shownovel.component';
+import { ShownovelinformationComponent } from './components/shownovelinformation/shownovelinformation.component';
+import { UpdatenovelComponent } from './components/updatenovel/updatenovel.component';
 
 
 
@@ -24,7 +27,10 @@ import { CreateuserComponent } from './components/createuser/createuser.componen
     SigninComponent,
     CommentComponent,
     HomepageComponent,
-    CreateuserComponent
+    CreateuserComponent,
+    ShownovelComponent,
+    ShownovelinformationComponent,
+    UpdatenovelComponent
     
   ],
   imports: [
