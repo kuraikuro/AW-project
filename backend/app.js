@@ -32,7 +32,7 @@ try {
 }
 
 const userSchema = Schema({
-    name :String,
+    username :String,
 	password : String,
     email: String,
 },
@@ -209,7 +209,7 @@ const findUser = (username) => {
                 reject(new Error('Cannont find username!'));
             }else{
                 if(data){
-                    resolve({id: data._id,username: data.username, password: data.password})
+                    resolve({id: data._id,name: data.username, password: data.password})
                 }else{
                     reject(new Error('Cannont find username!'));
                 }

@@ -5,6 +5,8 @@ import { CreateuserComponent } from './components/createuser/createuser.componen
 import { SigninComponent } from './components/signin/signin.component';
 import { ShownovelComponent } from './components/shownovel/shownovel.component';
 import { UpdatenovelComponent } from './components/updatenovel/updatenovel.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
+
 
 const routes: Routes = [
   {path: 'signin', component: SigninComponent },
@@ -12,6 +14,7 @@ const routes: Routes = [
   {path: 'shownovel', component: ShownovelComponent },
   {path: 'updatenovel', component: UpdatenovelComponent },
   {path: 'createuser', component: CreateuserComponent },
+  {path: 'homepage', component: HomepageComponent },
   {path: '', 
     redirectTo: 'signin',
     pathMatch: 'full' }
