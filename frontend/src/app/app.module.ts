@@ -15,6 +15,9 @@ import { ShowcommentComponent } from './components/showcomment/showcomment.compo
 
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { CreateuserComponent } from './components/createuser/createuser.component';
+import { ShownovelComponent } from './components/shownovel/shownovel.component';
+import { ShownovelinformationComponent } from './components/shownovelinformation/shownovelinformation.component';
+import { UpdatenovelComponent } from './components/updatenovel/updatenovel.component';
 
 
 
@@ -31,7 +34,10 @@ import { CreateuserComponent } from './components/createuser/createuser.componen
 
   
     HomepageComponent,
-    CreateuserComponent
+    CreateuserComponent,
+    ShownovelComponent,
+    ShownovelinformationComponent,
+    UpdatenovelComponent
 
     
   ],
