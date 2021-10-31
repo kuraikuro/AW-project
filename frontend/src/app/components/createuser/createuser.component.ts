@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NovelService } from 'src/app/services/novel.service';
 
 @Component({
   selector: 'app-createuser',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateuserComponent implements OnInit {
 
-  constructor() { }
+  userForm = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl(''),
+    email: new FormControl(''),
+  })
+
+  constructor(private cuser:NovelService, private router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  signup(){
+    this.cuser.signUp(this.userForm.value).subscribe(
+      data => {
+        alert(data.message)
+      },
+      err=>{
+        alert('Sign Up failure!!!')
+      }
+    )
   }
 
 }

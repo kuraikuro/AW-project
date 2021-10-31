@@ -8,30 +8,30 @@
                 <div class="card-header">
                     ลงทะเบียนบัญชีผู้ใช้
                 </div>
-                <form>
+                <form [formGroup]="userForm">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">อีเมล์</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" formControlName="email">
                             </div>
                             <br>
                             <div class="form-group">
                               <label for="">ยูเซอร์เนม</label>
-                              <input type="text" class="form-control">
+                              <input type="text" class="form-control" formControlName="username">
                             </div>
                             <br>
                             <div class="form-group">
                                 <label for="">รหัสผ่าน</label>
-                                <input type="password" class="form-control">
+                                <input type="password" class="form-control" formControlName="password">
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="button" class="btn btn-primary" >ลงทะเบียน</button>
+                            <button type="button" class="btn btn-primary" (click)="signup()">ลงทะเบียน</button>
                         </div>
                     </div>
                 </div>
