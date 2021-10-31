@@ -25,11 +25,16 @@ export class CreateuserComponent implements OnInit {
     this.cuser.signUp(this.userForm.value).subscribe(
       data => {
         alert(data.message)
+        this.router.navigate(['/signin']);
       },
       err=>{
-        alert('Sign Up failure!!!')
+        alert('สมัคสมาชิคล้มเหลว')
       }
     )
+  }
+
+  cancel(){
+    this.router.navigate(['/signin'])
   }
 
 }
