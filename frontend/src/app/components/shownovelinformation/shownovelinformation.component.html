@@ -1,14 +1,19 @@
-<div class="container">
-    <img [src]="" style="height:255px;">
-    <br>
-    เนื้อเรื่องย่อ :
-    <br>
-    สำนักพิมพ์ :
-    <br>
-    ราคา :
-    <br>
-    <button class="btn btn-danger" style="float: right;">ลบ</button>
-    <button class="btn btn-primary" style="float: right;">แก้ไข</button>
-    
+    <div class="card" *ngFor="let item of novel; index as i" style="margin-top: 100px; " >
+        <div class="card-header">
+            {{item.name}}
+        </div>
+        <div class="card-body">
+            <img [src]="item.urlimg" style="height:255px;">
+        <br>
+        เนื้อเรื่องย่อ : {{item.shortnote}}
+        <br>
+        สำนักพิมพ์ : {{item.publisher}}
+        <br>
+         ราคา :{{item.price}}
+        <br>
+        <button class="btn btn-danger" style="float: right;" (click)="DeleteonClick()">ลบ</button>
+        <button class="btn btn-primary" style="float: right;">แก้ไข</button>
+        </div>
+    </div>
 
-</div>
+

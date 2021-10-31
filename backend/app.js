@@ -112,7 +112,7 @@ const addNovel = (novelData) => {
 }
 const updateNovel = (novelid,novelnewData) => {
     return new Promise((resolve,reject) => {
-        Novels.findByIdAndUpdate(novelid,novelnewData,(err,data) => {
+        Novels.findOneAndUpdate({id:novelid},novelnewData,(err,data) => {
             if(err){
                 reject(new Error('Cannot update novel to DB'));
             }else{
@@ -123,7 +123,7 @@ const updateNovel = (novelid,novelnewData) => {
 }
 const deleteNovels = (novelid) =>{
     return new Promise ((resolve, reject) => {
-         Novels.findByIdAndRemove(novelid,(err, data) => {
+         Novels.findOneAndRemove({id:novelid},(err, data) => {
             if(err){
                 reject(new Error('Cannont delete Novel'));
             }else{
@@ -151,9 +151,9 @@ const getallNovels = () => {
         })
     });
 }
-const getOneNovel = (novelid) => {
+const getOneNovel = (nid) => {
     return new Promise ((resolve, reject) => {
-        Novels.findById(novelid, (err, data) => {
+        Novels.find({id:nid}, (err, data) => {
             if(err){
                 reject(new Error('Cannont find Novel!'));
             }else{
@@ -265,7 +265,7 @@ const addWish = (wishData) => {
 }
 const deleteWishs = (wishid) =>{
     return new Promise ((resolve, reject) => {
-         Wishs.findByIdAndRemove( wishid,(err, data) => {
+         Wishs.findOneAndRemove( {id:wishid},(err, data) => {
             if(err){
                 reject(new Error('Cannont delete wish'));
             }else{
@@ -389,7 +389,7 @@ expressApp.get('/novel/get',(req,res)=>{
 });
 expressApp.get('/novel/getone',(req,res)=>{
     console.log('find novel');
-    getOneNovel()
+    getOneNovel(req.body)
         .then(result => {
             console.log(result);
             res.status(200).json(result);

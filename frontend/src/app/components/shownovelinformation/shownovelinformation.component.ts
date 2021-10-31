@@ -7,7 +7,7 @@ import { NovelService } from 'src/app/services/novel.service';
 })
 export class ShownovelinformationComponent implements OnInit {
   novel :any
-  novelid :any
+  nid ="617e554103a70c085ffeacd7";
   constructor(private ps: NovelService) { 
     this.onLoading();
   }
@@ -15,7 +15,7 @@ export class ShownovelinformationComponent implements OnInit {
   }
   onLoading(){
     try{
-      this.ps.getOneNovel(this.novelid).subscribe(
+      this.ps.getOneNovel(this.nid).subscribe(
         data => {
           this.novel = data;
         },
@@ -26,5 +26,17 @@ export class ShownovelinformationComponent implements OnInit {
       console.log(error)
     }
   }
-
+  DeleteonClick(){
+    try{
+      this.ps.deleteNovel(this.nid).subscribe(
+        data => {
+          this.novel = data;
+        },
+          err=>{
+            console.log(err)
+          });
+    }catch(error){
+      console.log(error)
+    }
+  }
 }

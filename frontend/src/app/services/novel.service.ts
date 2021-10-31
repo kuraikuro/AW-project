@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { LocalStorageService } from 'angular-web-storage';
 
@@ -12,7 +12,7 @@ export class NovelService {
   comments:any;
   wishs:any;
   oneuser:any;
-
+  
 
   constructor(private http:HttpClient, public local:LocalStorageService) { }
 
@@ -54,7 +54,7 @@ export class NovelService {
       return this.allnovels;
     }));
   }
-  getOneNovel(nid:any){
+  getOneNovel(nid :any){
     return this.http.get<any>('http://localhost:3000/novel/getone',nid)
     .pipe(map(data =>{
       if(data){
