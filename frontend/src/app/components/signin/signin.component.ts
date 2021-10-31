@@ -9,7 +9,7 @@ import { NovelService } from 'src/app/services/novel.service';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-
+  userinfo: any;
   userForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
@@ -25,8 +25,10 @@ export class SigninComponent implements OnInit {
     this.user.signIn(this.userForm.value).subscribe(
       data => {
         if(data.status == true){
+          this.userinfo = data;
           this.router.navigate(['/homepage']);
           console.log('go next')
+          console.log(this.userinfo);
         }
       },
       err =>{

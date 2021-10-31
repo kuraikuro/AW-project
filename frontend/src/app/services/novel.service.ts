@@ -12,7 +12,7 @@ export class NovelService {
   comments:any;
   wishs:any;
   oneuser:any;
-  
+  uid:any;
 
   constructor(private http:HttpClient, public local:LocalStorageService) { }
 
@@ -22,9 +22,11 @@ export class NovelService {
     .pipe(map(data =>{
         if(data){
           this.local.set('user', data, 1, 'w');
+          console.log('service');
           console.log(this.local.get('user'));
+          this.uid = this.local.get('user');
         }
-        return data;
+        return this.uid;
     }));
   }
 
