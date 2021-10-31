@@ -1,36 +1,45 @@
-<div class="card">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">เพิ่มงานเขียนใหม่</li>
-        </ol>
-    </nav>
-    <div class="card-body">
-        <h2 class="card-title">เพิ่มงานเขียนใหม่</h2>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" formControlName=''>
-                        </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/homepage">หน้าหลัก</a></li>
+        <li class="breadcrumb-item active" aria-current="page">เพิ่มงานเขียนใหม่</li>
+    </ol>
+</nav>
+<div class="card-body">
+    <h2 class="card-title">เพิ่มงานเขียนใหม่</h2>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="file" class="form-control-file" formControlName='file' (change)="onChangeImg($event)">
                     </div>
                 </div>
             </div>
-        <div class="col-md-6">
-              <form>
-                  <div class = "card">
+
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-9">
+                    <img *ngIf="previewLoaded" class="img-thumbnail" [src]="this.createForm.value.img" style="height:150px;">
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-md-8">
+            <form [formGroup] = "createForm">
+                <div class="card">
                     <h4 class="card-header">งานเขียนใหม่</h4>
-                    <div class = "card-body">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
                                 <h5>ชื่อเรื่อง : </h5>
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" formControlName=''>
+                                    <input type="text" class="form-control" formControlName='name'>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +50,7 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" formControlName=''>
+                                    <input type="text" class="form-control" formControlName='price'>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +61,7 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" formControlName=''>
+                                    <input type="text" class="form-control" formControlName='publisher'>
                                 </div>
                             </div>
                         </div>
@@ -63,22 +72,21 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" formControlName=''>
+                                    <textarea type="text" class="form-control" rows="10" formControlName='shortnote'></textarea>
                                 </div>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-md-10">
-                                
+
                             </div>
                             <div class="col-md-2">
-                                <button type="button" class="btn btn-primary" >SAVE</button>
+                                <button type="button" class="btn btn-primary" (click)="addNovel()">SAVE</button>
                             </div>
                         </div>
                     </div>
-                  </div>
-              </form>
-          </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
