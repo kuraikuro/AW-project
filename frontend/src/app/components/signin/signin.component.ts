@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NovelService } from 'src/app/services/novel.service';
 
 @Component({
   selector: 'app-signin',
@@ -9,9 +10,34 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  constructor() { }
+  userForm = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl(''),
+  })
+
+  constructor( private user:NovelService, private router:Router ) { }
 
   ngOnInit(): void {
+  }
+
+  signin(){
+    console.log(this.userForm.value)
+    this.user.signIn(this.userForm.value).subscribe(
+      data => {
+        if(data.status == true){
+          this.router.navigate(['/homepage']);
+          console.log('go next')
+        }
+      },
+      err =>{
+        console.log(err);
+        alert('User or password is incorrect!');
+      }
+    );
+  }
+
+  signup(){
+    this.router.navigate(['/createuser']);
   }
 
 }
