@@ -1,34 +1,27 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/homepage">หน้าหลัก</a></li>
-        <li class="breadcrumb-item active" aria-current="page">เพิ่มงานเขียนใหม่</li>
-    </ol>
-</nav>
-<div class="card-body">
-    <h2 class="card-title">เพิ่มงานเขียนใหม่</h2>
+<div class = "container-fluid" style="margin-top: 20px;">
+    <h2>เพิ่มงานเขียนใหม่</h2>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-3">
+
+<br>
+
+<div class = "container">
+    <form [formGroup]="createForm">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="text-center">
                     <div class="form-group">
                         <input type="file" class="form-control-file" formControlName='file' (change)="onChangeImg($event)">
                     </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-9">
-                    <img *ngIf="previewLoaded" class="img-thumbnail" [src]="this.createForm.value.urlimg" style="height:150px;">
+                    <br>
+                    <div >
+                        <img *ngIf="previewLoaded" class="img-thumbnail" [src]="this.createForm.value.urlimg" style="height:150px;">
+                    </div>
                 </div>
             </div>
 
-        </div>
-        <div class="col-md-8">
-            <form [formGroup] = "createForm">
-                <div class="card">
-                    <h4 class="card-header">งานเขียนใหม่</h4>
+            <div class="col-md-7">
+                <div class="card border-info">
+                    <h4 class="card-header border-info bg-info text-white">งานเขียนใหม่</h4>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
@@ -47,7 +40,7 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" formControlName='price'>
+                                    <input type="number" class="form-control" formControlName='price'>
                                 </div>
                             </div>
                         </div>
@@ -69,21 +62,19 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <textarea type="text" class="form-control" rows="10" formControlName='shortnote'></textarea>
+                                    <textarea type="text" class="form-control" rows="15" formControlName='shortnote'></textarea>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="col-md-10">
-
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-primary" (click)="addNovel()">SAVE</button>
-                            </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-primary" (click)="addNovel()">บันทึกงานเขียน</button>&nbsp;
+                            <button type="button" class="btn btn-danger" (click)="cancel()">ยกเลิกงานเขียน</button>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+
         </div>
-    </div>
+    </form>
+</div>
