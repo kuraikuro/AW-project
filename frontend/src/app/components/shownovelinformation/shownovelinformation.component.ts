@@ -7,7 +7,12 @@ import { NovelService } from 'src/app/services/novel.service';
 })
 export class ShownovelinformationComponent implements OnInit {
   novel :any
-  nid ="617e554103a70c085ffeacd7";
+  userid = "617e632d20e1ef242529ddeb";
+  nid ={"_id":"617e7e2432e81229ee715847"};
+  wish ={
+    uid:"",
+    bid:"",
+  }
   constructor(private ps: NovelService) { 
     this.onLoading();
   }
@@ -39,9 +44,12 @@ export class ShownovelinformationComponent implements OnInit {
       console.log(error)
     }
   }
+  
   ClickaddWish(){
     try{
-      this.ps.addWish(this.nid).subscribe(
+      this.wish.bid = this.nid._id;
+      this.wish.uid = this.userid;
+      this.ps.addWish(this.wish).subscribe(
         data => {
           this.novel = data;
         },
