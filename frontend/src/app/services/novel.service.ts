@@ -67,7 +67,8 @@ export class NovelService {
     }));
   }
   updateNovel(newnovel:any){
-    return this.http.put<any>('http://localhost:3000/novel/add',newnovel)
+    console.log(newnovel);
+    return this.http.put<any>('http://localhost:3000/novel/update',newnovel)
     .pipe(map(data =>{
       return data;
     }));
