@@ -1,19 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { NovelService } from 'src/app/services/novel.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-shownovelinformation',
   templateUrl: './shownovelinformation.component.html',
   styleUrls: ['./shownovelinformation.component.css']
 })
+
 export class ShownovelinformationComponent implements OnInit {
   novel :any
+  @Input() novels:any;
+  @Input() users:any;
   userid = "617e632d20e1ef242529ddeb";
-  nid ={"_id":"617e7e2432e81229ee715847"};
+  nid ={
+    id:"1001",
+  }
   wish ={
     uid:"",
     bid:"",
   }
-  constructor(private ps: NovelService) { 
+  constructor(private ps: NovelService,private router:Router) { 
     this.onLoading();
   }
   ngOnInit(): void {
@@ -23,6 +29,7 @@ export class ShownovelinformationComponent implements OnInit {
       this.ps.getOneNovel(this.nid).subscribe(
         data => {
           this.novel = data;
+          console.log(this.nid);
         },
           err=>{
             console.log(err)
@@ -30,6 +37,9 @@ export class ShownovelinformationComponent implements OnInit {
     }catch(error){
       console.log(error)
     }
+  }
+  update(){
+    this.router.navigate(['/updatenovel']);
   }
   DeleteonClick(){
     try{
@@ -47,7 +57,7 @@ export class ShownovelinformationComponent implements OnInit {
   
   ClickaddWish(){
     try{
-      this.wish.bid = this.nid._id;
+      this.wish.bid = this.nid.id;
       this.wish.uid = this.userid;
       this.ps.addWish(this.wish).subscribe(
         data => {

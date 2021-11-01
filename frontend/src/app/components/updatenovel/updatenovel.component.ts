@@ -9,6 +9,7 @@ import { NovelService } from 'src/app/services/novel.service';
 export class UpdatenovelComponent implements OnInit {
   getId:any;
   novelinfo:any;updateNovelForm = new FormGroup({
+    id:new FormControl('',[Validators.required]),
     name:new FormControl('',[Validators.required]),
     price :new FormControl('',[Validators.required]),
     shortnote : new FormControl('',[Validators.required]),
@@ -20,6 +21,7 @@ export class UpdatenovelComponent implements OnInit {
     this.getId = "617e7dfe32e81229ee715841";
     this.ps.getOneNovel(this.getId).subscribe(res =>{
       this.updateNovelForm.setValue({
+        id:res['id'],
         name:res['name'],
 	      price :res['price'],
 	      shortnote : res['shortnote'],
