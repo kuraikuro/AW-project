@@ -56,8 +56,10 @@ export class NovelService {
       return this.allnovels;
     }));
   }
+
   getOneNovel(nid :any){
-    return this.http.get<any>('http://localhost:3000/novel/getone',nid)
+    console.log(nid);
+    return this.http.post<any>('http://localhost:3000/novel/getone',nid)
     .pipe(map(data =>{
       if(data){
         this.onenovels = data;
@@ -68,7 +70,7 @@ export class NovelService {
   }
   updateNovel(newnovel:any){
     console.log(newnovel);
-    return this.http.put<any>('http://localhost:3000/novel/update',newnovel)
+    return this.http.put<any>('http://localhost:3000/novel/update/:',newnovel)
     .pipe(map(data =>{
       return data;
     }));
@@ -94,7 +96,7 @@ export class NovelService {
     }));
   }
   getSomeComment(nid:any){
-    return this.http.get<any>('http://localhost:3000/novel/comment',nid)
+    return this.http.post<any>('http://localhost:3000/novel/comment',nid)
     .pipe(map(data =>{
       if(data){
         this.comments = data;
@@ -110,7 +112,7 @@ export class NovelService {
     }));
   }
   getSomeWish(uid:any){
-    return this.http.get<any>('http://localhost:3000/user/wish',uid)
+    return this.http.post<any>('http://localhost:3000/user/wish',uid)
     .pipe(map(data =>{
       if(data){
         this.wishs = data;
