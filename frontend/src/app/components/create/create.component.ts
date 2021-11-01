@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NovelService } from 'src/app/services/novel.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class CreateComponent implements OnInit {
   
   previewLoaded: boolean = false;
 
-  constructor( private cn: NovelService) { }
+  constructor( private cn: NovelService, private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -32,6 +33,7 @@ export class CreateComponent implements OnInit {
         console.log(data)
         alert('บันทึกงานเขียนเรียบร้อย');
         this.createForm.reset();
+        this.router.navigate(['/shownovel'])
       },
         err => {
           console.log(err);
@@ -56,6 +58,10 @@ export class CreateComponent implements OnInit {
         };
       }
     }
+  }
+
+  cancel(){
+    this.router.navigate(['/homepage'])
   }
 
 }
