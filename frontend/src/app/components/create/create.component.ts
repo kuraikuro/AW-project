@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class CreateComponent implements OnInit {
 
   createForm = new FormGroup({
+    id: new FormControl('',[Validators.required]),
     name: new FormControl('',[Validators.required]),
     price : new FormControl('',[Validators.required]),
     shortnote : new FormControl('',[Validators.required]),

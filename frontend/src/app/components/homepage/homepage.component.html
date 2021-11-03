@@ -1,1 +1,37 @@
-<p>homepage works!</p>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a routerLink="/homepage" class="navbar-brand btn btn-dark">หน้าหลัก</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a routerLink="/create" routerLinkActive="active" class="btn btn-dark">เพิ่มงานเขียนใหม่</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/wish" routerLinkActive="active" class="btn btn-dark">ชั้นหนังสือของฉัน</a>
+        </li>
+      </ul>
+    </div>
+    
+  </nav>
+
+<div class="container">
+    <div class="card" *ngFor="let item of novel; index as i" style="margin-top: 50px; " >
+        <div class="card-header">
+            <h5 class='text-center'>{{item.name}}</h5>
+        </div>
+        <div class="card-body" >
+            <div class = 'row'>
+                <div class='col-md-7'>
+                    <img [src]="item.urlimg" style="height:255px;">
+                </div>
+                <div class='col-md-3'>
+                    <button type="button" class="btn btn-primary" (click)="onShownovel()">อ่านเนื้อหา</button>
+                </div>
+            </div>
+            
+        
+    </div>
+    <br>
+</div>
