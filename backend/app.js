@@ -14,7 +14,6 @@ useUnifiedTopology: true
 };
 var Schema = require("mongoose").Schema;
 const novelSchema = Schema({
-    id:String,
     name :String,
 	price :Number,
 	shortnote : String,
@@ -63,7 +62,6 @@ try {
 }
 
 const wishSchema = Schema({
-    id:String,
     uid : String,
     bid : String,
 },
@@ -96,6 +94,7 @@ expressApp.use((req, res, next) => {
     });
 });
 
+
 /*Novels */
 const addNovel = (novelData) => {
     return new Promise((resolve,reject) => {
@@ -111,9 +110,9 @@ const addNovel = (novelData) => {
         });
     });
 }
-const updateNovel = (novelnewData) => {
+const updateNovel = (novelid,novelnewData) => {
     return new Promise((resolve,reject) => {
-        Novels.findOneAndUpdate({id:novelnewData.id},novelnewData,(err,data) => {
+        Novels.findOneAndUpdate({id:novelid},novelnewData,(err,data) => {
             if(err){
                 reject(new Error('Cannot update novel to DB'));
             }else{
@@ -124,7 +123,7 @@ const updateNovel = (novelnewData) => {
 }
 const deleteNovels = (novelid) =>{
     return new Promise ((resolve, reject) => {
-         Novels.findOneAndRemove({id:novelid.id},(err, data) => {
+         Novels.findOneAndRemove({id:novelid},(err, data) => {
             if(err){
                 reject(new Error('Cannont delete Novel'));
             }else{
@@ -154,8 +153,7 @@ const getallNovels = () => {
 }
 const getOneNovel = (nid) => {
     return new Promise ((resolve, reject) => {
-        Novels.find({id:nid.id}, (err, data) => {
-            console.log(nid.id)
+        Novels.find({id:nid}, (err, data) => {
             if(err){
                 reject(new Error('Cannont find Novel!'));
             }else{
@@ -220,6 +218,22 @@ const findUser = (username) => {
     })
 }
 
+const getOneUser = (uid) => {
+    return new Promise ((resolve, reject) => {
+        Novels.findOne({id:uid}, (err, data) => {
+            if(err){
+                reject(new Error('Cannont find User!'));
+            }else{
+                if(data){
+                    resolve(data)
+                }else{
+                    reject(new Error('Cannont find User!'));
+                }
+            }
+        })
+    });
+}
+
 /*Comments */
 const addComment = (commentData) => {
     return new Promise((resolve,reject) => {
@@ -236,18 +250,31 @@ const addComment = (commentData) => {
     });
 }
 const getSomeComment = (novelid) => {
+    console.log(novelid)
     return new Promise ((resolve, reject) => {
-        Novels.find({bid:novelid.id}, (err, data) => {
+        Comments.find({bid:novelid.bid}, (err, data) => {
             if(err){
-                reject(new Error('Cannont get Wish!'));
+                reject(new Error('Cannont get Comment!'));
             }else{
                 if(data){
                     resolve(data)
                 }else{
-                    reject(new Error('Cannont get Wish!'));
+                    reject(new Error('Cannont get Comment!'));
                 }
             }
         })
+    });
+}
+
+const updateComment = (novelid,novelnewData) => {
+    return new Promise((resolve,reject) => {
+        Comments.findOneAndUpdate({id:novelid},novelnewData,(err,data) => {
+            if(err){
+                reject(new Error('Cannot update comment to DB'));
+            }else{
+                resolve({message: 'comment update successfully'});
+            }
+        });
     });
 }
 /*Wishs */
@@ -280,9 +307,9 @@ const deleteWishs = (wishid) =>{
         })
     });
 }
-const getSomeWish = (userid) => {
+/*const getSomeWish = (wishid) => {
     return new Promise ((resolve, reject) => {
-        Novels.find({uid:userid}, (err, data) => {
+        Wishs.find({id:wishid}, (err, data) => {
             if(err){
                 reject(new Error('Cannont get Wish!'));
             }else{
@@ -294,7 +321,7 @@ const getSomeWish = (userid) => {
             }
         })
     });
-}
+}*/
 
 
 /*Route */
@@ -354,7 +381,7 @@ expressApp.post('/login/signin',async(req,res) => {
     }
 })
 expressApp.post('/wish/add',(req,res)=>{
-    console.log('add');
+    console.log('add wish');
     addWish(req.body)
         .then(result => {
             console.log(result);
@@ -365,7 +392,7 @@ expressApp.post('/wish/add',(req,res)=>{
         })
 });
 expressApp.post('/comment/add',(req,res)=>{
-    console.log('add');
+    console.log('add comment');
     addComment(req.body)
         .then(result => {
             console.log(result);
@@ -387,9 +414,8 @@ expressApp.get('/novel/get',(req,res)=>{
             console.log(err);
         })
 });
-expressApp.post('/novel/getone',(req,res)=>{
+expressApp.get('/novel/getone',(req,res)=>{
     console.log('find novel');
-    console.log(req.body)
     getOneNovel(req.body)
         .then(result => {
             console.log(result);
@@ -399,7 +425,7 @@ expressApp.post('/novel/getone',(req,res)=>{
             console.log(err);
         })
 });
-expressApp.post('/user/wish',(req,res)=>{
+expressApp.get('/user/wish',(req,res)=>{
     console.log('get wish novel');
     getSomeWish(req.body)
         .then(result => {
@@ -411,7 +437,8 @@ expressApp.post('/user/wish',(req,res)=>{
         })
 });
 expressApp.post('/novel/comment',(req,res)=>{
-    console.log('get wish novel');
+    console.log('get comment');
+    console.log(req.body)
     getSomeComment(req.body)
         .then(result => {
             console.log(result);
@@ -423,7 +450,6 @@ expressApp.post('/novel/comment',(req,res)=>{
 });
 expressApp.delete('/novel/delete',(req,res)=>{
     console.log('delete novel');
-    console.log(req.body);
     deleteNovels(req.body)
         .then(result => {
             console.log(result);
@@ -435,7 +461,7 @@ expressApp.delete('/novel/delete',(req,res)=>{
 });
 expressApp.delete('/wish/delete',(req,res)=>{
     console.log('delete novel');
-    deleteWishs(req.params.id,req.body)
+    deleteWishs(req.body)
         .then(result => {
             console.log(result);
             res.status(200).json(result);
@@ -446,7 +472,18 @@ expressApp.delete('/wish/delete',(req,res)=>{
 });
 expressApp.put('/novel/update',(req,res)=>{
     console.log('update novel');
-    updateNovel(req.body)
+    updateNovel(req.params.id,req.body)
+        .then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
+expressApp.put('/comment/update',(req,res)=>{
+    console.log('update comment');
+    updateComment(req.params.id,req.body)
         .then(result => {
             console.log(result);
             res.status(200).json(result);
