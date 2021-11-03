@@ -13,10 +13,18 @@ export class NovelService {
   wishs:any;
   oneuser:any;
   uid:any;
+  nid:any;
 
   constructor(private http:HttpClient, public local:LocalStorageService) { }
 
-
+  passnovelId(rawdata:any){
+    this.nid = rawdata;
+    console.log('passid')
+  }
+  getnid(){
+    console.log(this.nid)
+    return this.nid;
+  }
   signIn(userData: any){
     return this.http.post<any>('http://localhost:3000/login/signin',userData)
     .pipe(map(data =>{
@@ -47,6 +55,7 @@ export class NovelService {
     }));
   }
   getallNovel(){
+    console.log('work')
     return this.http.get<any>('http://localhost:3000/novel/get')
     .pipe(map(data =>{
       if(data){

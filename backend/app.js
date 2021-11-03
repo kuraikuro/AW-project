@@ -124,7 +124,7 @@ const updateNovel = (novelnewData) => {
 }
 const deleteNovels = (novelid) =>{
     return new Promise ((resolve, reject) => {
-         Novels.findOneAndRemove({_id:novelid.id},(err, data) => {
+         Novels.findOneAndRemove({id:novelid.id},(err, data) => {
             if(err){
                 reject(new Error('Cannont delete Novel'));
             }else{
@@ -137,9 +137,9 @@ const deleteNovels = (novelid) =>{
         })
     });
 }
-const getallNovels = (nid) => {
+const getallNovels = () => {
     return new Promise ((resolve, reject) => {
-        Novels.find({id:nid}, (err, data) => {
+        Novels.find({}, (err, data) => {
             if(err){
                 reject(new Error('Cannont get Novels!'));
             }else{
