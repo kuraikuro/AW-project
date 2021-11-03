@@ -234,6 +234,30 @@ const getOneUser = (uid) => {
     });
 }
 
+/*config */
+const authorization = ((req,res,next) => {
+    const token = req.headers['authorization'];
+    if(token === undefined){
+        return res.status(401).json({
+            "status": 401,
+            "message": 'Unauthorized'
+        })
+    }else{
+        jwt.verify(token,key,(err,decode) => {
+            if(err){
+                return res.status(401).json({
+                    "status": 401,
+                    "message": 'Unauthorized'
+                })
+            }else{
+                console.log(decode)
+                next()
+            }
+        })
+    }
+})
+
+
 /*Comments */
 const addComment = (commentData) => {
     return new Promise((resolve,reject) => {
@@ -380,6 +404,16 @@ expressApp.post('/login/signin',async(req,res) => {
         res.status(404).send(error);
     }
 })
+expressApp.get('/novel/homepage',(req,res)=>{
+    getallNovels()
+        .then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
 expressApp.post('/wish/add',(req,res)=>{
     console.log('add wish');
     addWish(req.body)

@@ -14,6 +14,7 @@ export class NovelService {
   oneuser:any;
   uid:any;
   nid:any;
+  user:any;
 
   constructor(private http:HttpClient, public local:LocalStorageService) { }
 
@@ -23,6 +24,14 @@ export class NovelService {
   }
   getnid(){
     console.log(this.nid)
+    return this.nid;
+  }
+  passuId(rawdata:any){
+    this.uid = rawdata;
+    console.log('passid')
+  }
+  getuid(){
+    console.log(this.uid)
     return this.nid;
   }
   signIn(userData: any){
@@ -46,6 +55,18 @@ export class NovelService {
       }
       return data;
   }));
+  }
+
+  getAllUser(token: any){
+    const headers = {'Authorization': token}
+    return this.http.get<any>('http://localhost:3000/novel/homepage',{headers})
+    .pipe(map(data =>{
+        if(data){
+         this.user = data;
+         console.log(data);
+        }
+        return data;
+    }));
   }
 
   addNovel(novel:any){
