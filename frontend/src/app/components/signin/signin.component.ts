@@ -10,6 +10,8 @@ import { NovelService } from 'src/app/services/novel.service';
 })
 export class SigninComponent implements OnInit {
   userinfo: any;
+  userData!: number;
+  homepageData!: number;
   userForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
