@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NovelService } from 'src/app/services/novel.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'angular-web-storage';
 
 
 @Component({
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
+
+  user: any;
+  token!:string;
 
   createForm = new FormGroup({
     id: new FormControl('',[Validators.required]),
@@ -23,9 +27,23 @@ export class CreateComponent implements OnInit {
   
   previewLoaded: boolean = false;
 
-  constructor( private cn: NovelService, private router:Router) { }
+  constructor( private cn: NovelService, private router:Router, public local:LocalStorageService) { }
 
   ngOnInit(): void {
+    try {
+      this.token = this.local.get('user').token
+      this.cn.getAllUser(this.token).subscribe(
+        data => {
+          this.user = data;
+        },
+        err => {
+          this.router.navigate(['/signin']);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      this.router.navigate(['/signin']);
+    }
   }
 
   addNovel(){
@@ -34,7 +52,7 @@ export class CreateComponent implements OnInit {
         console.log(data)
         alert('บันทึกงานเขียนเรียบร้อย');
         this.createForm.reset();
-        this.router.navigate(['/shownovel'])
+        this.router.navigate(['/homepage'])
       },
         err => {
           console.log(err);
