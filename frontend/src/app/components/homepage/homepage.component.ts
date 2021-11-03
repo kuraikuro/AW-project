@@ -10,33 +10,36 @@ import { Router } from '@angular/router';
 export class HomepageComponent implements OnInit {
 
   @Input() user:any;
-  nid={};
-  novel: any;
 
+  novel: any;
+  nid ={
+    id:"1001"
+  }
   constructor(private home: NovelService, private router:Router) {
-    this.onLoading();
    }
 
   ngOnInit(): void {
+    this.onLoading();
   }
-
   onLoading(){
     try{
-      this.home.getOneNovel(this.nid).subscribe(
-        data => {
-          this.novel = data;
-          console.log(this.nid);
-        },
-          err=>{
-            console.log(err)
-          });
+     this.home.getallNovel().subscribe(
+      data => {
+        this.novel = data;
+        console.log(this.novel);
+      },
+        err=>{
+          console.log(err)
+        });
+        
     }catch(error){
       console.log(error)
     }
   }
-  
-  onShownovel(){
-    this.router.navigate(['/shownovel'])
+  onClickNovel(value:any){
+    this.nid.id =value;
+    this.home.passnovelId(this.nid);
+    this.router.navigate(['/shownovel']);
   }
 
 }

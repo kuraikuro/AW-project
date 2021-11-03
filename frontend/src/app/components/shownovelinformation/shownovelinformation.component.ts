@@ -9,12 +9,9 @@ import { Router } from '@angular/router';
 
 export class ShownovelinformationComponent implements OnInit {
   novel :any
-  @Input() novels:any;
   @Input() users:any;
   userid = "617e632d20e1ef242529ddeb";
-  nid ={
-    id:"1001",
-  }
+  nid:any;
   wish ={
     uid:"",
     bid:"",
@@ -26,6 +23,9 @@ export class ShownovelinformationComponent implements OnInit {
   }
   onLoading(){
     try{
+      this.nid =this.ps.getnid();
+      console.log(this.nid);
+
       this.ps.getOneNovel(this.nid).subscribe(
         data => {
           this.novel = data;
