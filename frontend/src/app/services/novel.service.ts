@@ -9,15 +9,22 @@ import { LocalStorageService } from 'angular-web-storage';
 export class NovelService {
   allnovels:any;
   onenovels:any;
-  oneusers:any; 
   comments:any;
   wishs:any;
   oneuser:any;
   uid:any;
+  nid:any;
 
   constructor(private http:HttpClient, public local:LocalStorageService) { }
 
-
+  passnovelId(rawdata:any){
+    this.nid = rawdata;
+    console.log('passid')
+  }
+  getnid(){
+    console.log(this.nid)
+    return this.nid;
+  }
   signIn(userData: any){
     return this.http.post<any>('http://localhost:3000/login/signin',userData)
     .pipe(map(data =>{
@@ -48,6 +55,7 @@ export class NovelService {
     }));
   }
   getallNovel(){
+    console.log('work')
     return this.http.get<any>('http://localhost:3000/novel/get')
     .pipe(map(data =>{
       if(data){
@@ -57,8 +65,10 @@ export class NovelService {
       return this.allnovels;
     }));
   }
+
   getOneNovel(nid :any){
-    return this.http.get<any>('http://localhost:3000/novel/getone',nid)
+    console.log(nid);
+    return this.http.post<any>('http://localhost:3000/novel/getone',nid)
     .pipe(map(data =>{
       if(data){
         this.onenovels = data;
@@ -87,16 +97,6 @@ export class NovelService {
       return data;
     }));
   }
-  getOneUser(uid :any){
-    return this.http.get<any>('http://localhost:3000/user/get',uid)
-    .pipe(map(data =>{
-      if(data){
-        this.oneusers = data;
-        console.log(this.oneusers);
-      }
-      return this.oneusers;
-    }));
-  }
 
   addUser(user:any){
     return this.http.post<any>('http://localhost:3000/user/add',user)
@@ -111,10 +111,8 @@ export class NovelService {
       return data;
     }));
   }
-  getSomeComment(book:any){
-    console.log(book)
-  
-    return this.http.post<any>('http://localhost:3000/novel/comment',book)
+  getSomeComment(nid:any){
+    return this.http.post<any>('http://localhost:3000/novel/comment',nid)
     .pipe(map(data =>{
       if(data){
         this.comments = data;
@@ -130,7 +128,7 @@ export class NovelService {
     }));
   }
   getSomeWish(uid:any){
-    return this.http.get<any>('http://localhost:3000/user/wish',uid)
+    return this.http.post<any>('http://localhost:3000/user/wish',uid)
     .pipe(map(data =>{
       if(data){
         this.wishs = data;
