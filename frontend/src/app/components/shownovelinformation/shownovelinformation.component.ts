@@ -1,6 +1,8 @@
 import { Component, OnInit, } from '@angular/core';
 import { NovelService } from 'src/app/services/novel.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'angular-web-storage';
+
 @Component({
   selector: 'app-shownovelinformation',
   templateUrl: './shownovelinformation.component.html',
@@ -8,6 +10,9 @@ import { Router } from '@angular/router';
 })
 
 export class ShownovelinformationComponent implements OnInit {
+
+  user: any;
+  token!:string;
   novel :any;
   uid:any;
   nid:any;
@@ -15,10 +20,24 @@ export class ShownovelinformationComponent implements OnInit {
     uid:"",
     bid:"",
   }
-  constructor(private ps: NovelService,private router:Router) { 
+  constructor(private ps: NovelService,private router:Router, public local:LocalStorageService) { 
     this.onLoading();
   }
   ngOnInit(): void {
+    try {
+      this.token = this.local.get('user').token
+      this.ps.getAllUser(this.token).subscribe(
+        data => {
+          this.user = data;
+        },
+        err => {
+          this.router.navigate(['/signin']);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      this.router.navigate(['/signin']);
+    }
   }
   onLoading(){
     try{
