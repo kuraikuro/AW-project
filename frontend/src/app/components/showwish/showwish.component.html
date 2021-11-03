@@ -1,0 +1,29 @@
+<h2>Wish</h2>
+<div class="table-responsive-md">
+    <table class="table table-striped table-inverse">
+        <thead class="thead-inverse">
+            <tr>
+                
+                <th>Image</th>
+                <th>Name</th>
+                <th>shortnote</th>
+                
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of wishs; index as i">
+                <td scope="row"><img [src]="item.urlimg" style="height:150px;"></td>
+                <td>{{item.name}}</td>
+                <td>{{item.shortnote}}</td>
+             
+                <td>
+                    <a class="btn btn-danger" href="#" (click)="deleteWish()" >
+                        <i class="fa fa-trash-o fa-lg" >Delete</i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

@@ -19,6 +19,8 @@ import { CreateuserComponent } from './components/createuser/createuser.componen
 import { ShownovelComponent } from './components/shownovel/shownovel.component';
 import { ShownovelinformationComponent } from './components/shownovelinformation/shownovelinformation.component';
 import { UpdatenovelComponent } from './components/updatenovel/updatenovel.component';
+import { ShowwishComponent } from './components/showwish/showwish.component';
+import { UpdatecommentComponent } from './components/updatecomment/updatecomment.component';
 
 
 
@@ -36,7 +38,9 @@ import { UpdatenovelComponent } from './components/updatenovel/updatenovel.compo
     CreateuserComponent,
     ShownovelComponent,
     ShownovelinformationComponent,
-    UpdatenovelComponent
+    UpdatenovelComponent,
+    ShowwishComponent,
+    UpdatecommentComponent
   ],
   imports: [
     BrowserModule,
