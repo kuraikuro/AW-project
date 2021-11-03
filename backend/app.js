@@ -472,7 +472,8 @@ expressApp.delete('/wish/delete',(req,res)=>{
 });
 expressApp.put('/novel/update',(req,res)=>{
     console.log('update novel');
-    updateNovel(req.params.id,req.body)
+    console.log(req.body);
+    updateNovel(req.body)
         .then(result => {
             console.log(result);
             res.status(200).json(result);

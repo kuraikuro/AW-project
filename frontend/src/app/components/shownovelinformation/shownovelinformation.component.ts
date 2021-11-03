@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { NovelService } from 'src/app/services/novel.service';
 import { Router } from '@angular/router';
 @Component({
@@ -8,9 +8,8 @@ import { Router } from '@angular/router';
 })
 
 export class ShownovelinformationComponent implements OnInit {
-  novel :any
-  @Input() users:any;
-  userid = "617e632d20e1ef242529ddeb";
+  novel :any;
+  uid:any;
   nid:any;
   wish ={
     uid:"",
@@ -43,9 +42,11 @@ export class ShownovelinformationComponent implements OnInit {
   }
   DeleteonClick(){
     try{
+      console.log(this.nid)
       this.ps.deleteNovel(this.nid).subscribe(
         data => {
           this.novel = data;
+          this.router.navigate(['/homepage']);
         },
           err=>{
             console.log(err)
@@ -58,7 +59,7 @@ export class ShownovelinformationComponent implements OnInit {
   ClickaddWish(){
     try{
       this.wish.bid = this.nid.id;
-      this.wish.uid = this.userid;
+      this.wish.uid = this.uid;
       this.ps.addWish(this.wish).subscribe(
         data => {
           this.novel = data;

@@ -68,13 +68,21 @@ export class NovelService {
     }));
   }
   updateNovel(newnovel:any){
-    return this.http.put<any>('http://localhost:3000/novel/add',newnovel)
+    console.log(newnovel);
+    return this.http.put<any>('http://localhost:3000/novel/update',newnovel)
     .pipe(map(data =>{
       return data;
     }));
   }
-  deleteNovel(nid:any){
-    return this.http.delete<any>('http://localhost:3000/novel/delete',nid)
+  deleteNovel(dnid:any){
+    let options ={
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body:dnid,
+    };
+    console.log(dnid)
+    return this.http.delete<any>('http://localhost:3000/novel/delete',options)
     .pipe(map(data =>{
       return data;
     }));
