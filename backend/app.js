@@ -446,6 +446,7 @@ expressApp.delete('/wish/delete',(req,res)=>{
 });
 expressApp.put('/novel/update',(req,res)=>{
     console.log('update novel');
+    console.log(req.body);
     updateNovel(req.body)
         .then(result => {
             console.log(result);
