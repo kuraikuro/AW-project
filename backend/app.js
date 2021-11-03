@@ -407,7 +407,7 @@ expressApp.get('/novel/get',(req,res)=>{
     console.log('get novel');
     getallNovels()
         .then(result => {
-            console.log(result);
+           
             res.status(200).json(result);
         })
         .catch(err => {
@@ -418,7 +418,7 @@ expressApp.get('/novel/getone',(req,res)=>{
     console.log('find novel');
     getOneNovel(req.body)
         .then(result => {
-            console.log(result);
+            
             res.status(200).json(result);
         })
         .catch(err => {
