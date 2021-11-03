@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, } from '@angular/forms';
 import { NovelService } from 'src/app/services/novel.service';
 @Component({
   selector: 'app-updatenovel',
@@ -19,10 +19,10 @@ export class UpdatenovelComponent implements OnInit {
     file: new FormControl('',[Validators.required]),
     urlimg: new FormControl('',[Validators.required]),
     })
-    
+    previewLoaded: boolean = false;
   constructor(private ps: NovelService) {
     this.onLoading();
-    
+
    }
 
   ngOnInit(): void {
@@ -30,22 +30,50 @@ export class UpdatenovelComponent implements OnInit {
   onLoading(){
     this.getId = this.ps.getnid();
     console.log(this.getId)
-    this.ps.getOneNovel(this.getId).subscribe(res =>{
-      this.novel = res;
-      console.log(this.novel)
-      this.updateNovelForm.setValue({
-        id:this.novel.id
-      });
-      console.log(this.updateNovelForm.value)
-    })
+    this.ps.getOneNovel(this.getId).subscribe(
+      data => {
+        this.novel = data;
+        console.log(this.novel[0].id);
+        this.updateNovelForm.setValue({
+          id:this.novel[0].id,
+          name:this.novel[0].name,
+          price :this.novel[0].price,
+          shortnote : this.novel[0].shortnote,
+          publisher : this.novel[0].publisher,
+          file: this.novel[0].file,
+          urlimg: this.novel[0].urlimg,
     
+        });
+      },
+        err=>{
+          console.log(err)
+        });
+    
+    console.log(this.updateNovelForm.value)
+  }
+  
+  onChangeImg(e:any){
+    if(e.target.files.length > 0){
+      const file = e.target.files[0];
+      var pattern = /image-*/;
+      const reader = new FileReader();
+      if(!file.type.match(pattern)){
+        alert('invalid format');
+        this.updateNovelForm
+        .reset();
+      }else{
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.previewLoaded = true;
+          this.updateNovelForm.patchValue({
+            urlimg: reader.result
+          });
+        };
+      }
+    }
   }
   clickupdatenovel(){
-
-    this.updateNovelForm.setValue({
-      id:this.novel.id
-    })
-    if(this.updateNovelForm.valueChanges)
+    
     this.ps.updateNovel(this.updateNovelForm.value).subscribe(
       data =>{
         console.log(data)
