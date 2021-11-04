@@ -14,8 +14,7 @@ export class ShowwishComponent implements OnInit {
   user: any;
   token!:string;
   wishs: any
-  uid = "BB6102845";
-  wid = "616c25cd93bf9f9e178336fd";
+  uid:any;
   wn:any[] = [];
   constructor(private ns : NovelService, private router:Router, public local:LocalStorageService) { 
     this.showWish();
@@ -49,6 +48,7 @@ export class ShowwishComponent implements OnInit {
     console.log(this.wn)
   }
   showWish(){
+    this.uid=this.ns.getuid();
     try{
       this.ns.getSomeWish(this.uid).subscribe(
         data => {
@@ -64,11 +64,13 @@ export class ShowwishComponent implements OnInit {
     }
   }
   
-  deleteWish(){
+  deleteWish(i:any){
     try{
-      this.ns.deleteWish(this.wid).subscribe(
+      console.log(this.wishs[i].uid)
+      this.ns.deleteWish(this.wishs[i]).subscribe(
         data => {
           this.wishs = data;
+          window.location.reload();
         },
           err=>{
             console.log(err)

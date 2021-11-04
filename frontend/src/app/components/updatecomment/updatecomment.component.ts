@@ -45,7 +45,7 @@ export class UpdatecommentComponent implements OnInit {
       data =>{
         console.log(data)
         alert('comment update successfully');
-        this.updateCommentForm.reset();
+        
       },
       err =>{
         console.log(err);
@@ -53,7 +53,7 @@ export class UpdatecommentComponent implements OnInit {
     );
   }
   backpage(){
-    this.router.navigate(['/showcomment']);
+    this.router.navigate(['/shownovel']);
 
   }
 
