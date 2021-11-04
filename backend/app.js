@@ -443,8 +443,8 @@ expressApp.post('/login/signin',async(req,res) => {
         res.status(404).send(error);
     }
 })
-expressApp.get('/novel/homepage',(req,res)=>{
-    getallNovels()
+expressApp.get('/novel/homepage',authorization,(req,res)=>{
+    getAllUser()
         .then(result => {
             console.log(result);
             res.status(200).json(result);
