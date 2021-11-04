@@ -50,14 +50,17 @@ export class CreateComponent implements OnInit {
     if((this.createForm.value.id == '') || 
     (this.createForm.value.name == '') || 
     (this.createForm.value.price == '') ||
-    (this.createForm.value.shortnote == '')
+    (this.createForm.value.shortnote == '') ||
+    (this.createForm.value.publisher == '') ||
+    (this.createForm.value.file == '') ||
+    (this.createForm.value.urlimg == '')
     ){
-      alert('โปรดกรอกลายระเอียดให้ครบถ้วน');
+      alert('โปรดกรอกลายระเอียดหนังสือแนะนำให้ครบถ้วน');
     }else{
     this.cn.addNovel(this.createForm.value).subscribe(
       data => {
         console.log(data)
-        alert('บันทึกงานเขียนเรียบร้อย');
+        alert('บันทึกหนังสือแนะนำเรียบร้อย');
         this.createForm.reset();
         this.router.navigate(['/homepage'])
       },
