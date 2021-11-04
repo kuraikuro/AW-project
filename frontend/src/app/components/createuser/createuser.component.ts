@@ -42,11 +42,13 @@ export class CreateuserComponent implements OnInit {
     }else{
     this.cuser.signUp(this.userForm.value).subscribe(
       data => {
-        alert(data.message)
+        console.log(data)
+        alert('สมัครสมาชิกสำเร็จ');
         this.router.navigate(['/signin']);
       },
       err=>{
-        alert('สมัคสมาชิกล้มเหลว')
+        console.log(err);
+        alert('สมัคสมาชิกล้มเหลว ยูเซอร์เนมนี้ถูกใช้ไปแล้ว')
       });
     }
   }

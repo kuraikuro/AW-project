@@ -37,12 +37,12 @@ export class CreateComponent implements OnInit {
           this.user = data;
         },
         err => {
-          this.router.navigate(['/signin']);
+          this.router.navigate(['/homepage']);
         }
       );
     } catch (error) {
       console.log(error);
-      this.router.navigate(['/signin']);
+      this.router.navigate(['/homepage']);
     }
   }
 
