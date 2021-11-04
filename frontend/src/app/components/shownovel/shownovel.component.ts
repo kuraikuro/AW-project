@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NovelService } from 'src/app/services/novel.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'angular-web-storage';
+import { ShownovelinformationComponent } from '../shownovelinformation/shownovelinformation.component';
 
 @Component({
   selector: 'app-shownovel',
@@ -10,6 +11,8 @@ import { LocalStorageService } from 'angular-web-storage';
 })
 export class ShownovelComponent implements OnInit {
 
+  @ViewChild(ShownovelinformationComponent)
+  showinfo!: ShownovelinformationComponent;
   user: any;
   token!:string;
 
@@ -30,6 +33,18 @@ export class ShownovelComponent implements OnInit {
       console.log(error);
       this.router.navigate(['/signin']);
     }
+  }
+
+  onClickaddWist(){
+    this.showinfo.ClickaddWish();
+  }
+
+  onClickupdatet(){
+    this.showinfo.update();
+  }
+
+  onClickDelete(){
+    this.showinfo.DeleteonClick();
   }
 
 }
