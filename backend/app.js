@@ -411,7 +411,8 @@ const addWish = (wishData) => {
 
 const deleteWishs = (wishid) =>{
     return new Promise ((resolve, reject) => {
-         Wishs.findOneAndRemove( {id:wishid},(err, data) => {
+        console.log(wishid)
+         Wishs.findOneAndRemove( {uid:wishid.uid,bid:wishid.bid},(err, data) => {
             if(err){
                 reject(new Error('Cannont delete wish'));
             }else{
@@ -608,6 +609,7 @@ expressApp.delete('/novel/delete',(req,res)=>{
 });
 expressApp.delete('/wish/delete',(req,res)=>{
     console.log('delete novel');
+    console.log(req.body)
     deleteWishs(req.body)
         .then(result => {
             console.log(result);

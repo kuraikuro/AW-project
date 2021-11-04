@@ -200,7 +200,14 @@ export class NovelService {
     }));
   }
   deleteWish(wid:any){
-    return this.http.delete<any>('http://localhost:3000/wish/delete',wid)
+    let options ={
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body:wid,
+    };
+    console.log(wid)
+    return this.http.delete<any>('http://localhost:3000/wish/delete',options)
     .pipe(map(data =>{
       return data;
     }));
