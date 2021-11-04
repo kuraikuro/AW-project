@@ -10,6 +10,7 @@ export class NovelService {
   allnovels:any;
   onenovels:any;
   comments:any;
+  onecomments:any;
   wishs:any;
   oneuser:any;
   uid:any;
@@ -25,6 +26,10 @@ export class NovelService {
   getnid(){
     console.log(this.nid)
     return this.nid;
+  }
+  getcomment(){
+    console.log(this.comments)
+    return this.comments;
   }
   passuId(rawdata:any){
     this.uid = rawdata;
@@ -142,6 +147,25 @@ export class NovelService {
       return this.comments;
     }));
   }
+  getOneComment(comment :any){
+    console.log(comment);
+    return this.http.post<any>('http://localhost:3000/comment/getone',comment)
+    .pipe(map(data =>{
+      if(data){
+        this.onecomments = data;
+        console.log(this.onecomments);
+      }
+      return this.onecomments;
+    }));
+  }
+  updateComment(comment:any){
+    console.log(comment);
+    return this.http.put<any>('http://localhost:3000/novel/update',comment)
+    .pipe(map(data =>{
+      return data;
+    }));
+  }
+
   addWish(wish:any){
     return this.http.post<any>('http://localhost:3000/wish/add',wish)
     .pipe(map(data =>{
@@ -159,7 +183,14 @@ export class NovelService {
     }));
   }
   deleteWish(wid:any){
-    return this.http.delete<any>('http://localhost:3000/wish/delete',wid)
+    let options ={
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body:wid,
+    };
+    console.log(wid)
+    return this.http.delete<any>('http://localhost:3000/wish/delete',options)
     .pipe(map(data =>{
       return data;
     }));

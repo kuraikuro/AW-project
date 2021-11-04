@@ -220,6 +220,22 @@ const findUser = (username) => {
     })
 }
 
+const getAllUser = (uid) => {
+    return new Promise ((resolve, reject) => {
+        Users.find({}, (err, data) => {
+            if(err){
+                reject(new Error('Cannont find User!'));
+            }else{
+                if(data){
+                    resolve(data)
+                }else{
+                    reject(new Error('Cannont find User!'));
+                }
+            }
+        })
+    });
+}
+
 
 /*config */
 const authorization = ((req,res,next) => {
@@ -277,9 +293,25 @@ const getSomeComment = (novelid) => {
     });
 }
 
-const updateComment = (novelid,novelnewData) => {
+const getOneComment = (cid) => {
+    return new Promise ((resolve, reject) => {
+        Comments.find({id:cid}, (err, data) => {
+            if(err){
+                reject(new Error('Cannont find One Comment!'));
+            }else{
+                if(data){
+                    resolve(data)
+                }else{
+                    reject(new Error('Cannont find One Comment!'));
+                }
+            }
+        })
+    });
+}
+
+const updateComment = (commnetid,commentnewData) => {
     return new Promise((resolve,reject) => {
-        Comments.findOneAndUpdate({id:novelid},novelnewData,(err,data) => {
+        Comments.findOneAndUpdate({id:commentid},commentnewData,(err,data) => {
             if(err){
                 reject(new Error('Cannot update comment to DB'));
             }else{
@@ -489,6 +521,19 @@ expressApp.post('/novel/comment',(req,res)=>{
             console.log(err);
         })
 });
+
+expressApp.get('/comment/getone',(req,res)=>{
+    console.log('find comment');
+    getOneComment(req.body)
+        .then(result => {
+            
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
+
 expressApp.delete('/novel/delete',(req,res)=>{
     console.log('delete novel');
     deleteNovels(req.body)
@@ -525,7 +570,8 @@ expressApp.put('/novel/update',(req,res)=>{
 });
 expressApp.put('/comment/update',(req,res)=>{
     console.log('update comment');
-    updateComment(req.params.id,req.body)
+    console.log(req.body);
+    updateComment(req.body)
         .then(result => {
             console.log(result);
             res.status(200).json(result);
@@ -534,6 +580,7 @@ expressApp.put('/comment/update',(req,res)=>{
             console.log(err);
         })
 });
+
 
 expressApp.listen(3000, function(){
     console.log('Listening on port 3000');

@@ -6,6 +6,9 @@ import { SigninComponent } from './components/signin/signin.component';
 import { ShownovelComponent } from './components/shownovel/shownovel.component';
 import { UpdatenovelComponent } from './components/updatenovel/updatenovel.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { CommentComponent } from './components/comment/comment.component';
+import { ShowcommentComponent } from './components/showcomment/showcomment.component';
+import { UpdatecommentComponent } from './components/updatecomment/updatecomment.component';
 import { ShowwishComponent } from './components/showwish/showwish.component';
 
 
@@ -15,7 +18,10 @@ const routes: Routes = [
   {path: 'shownovel', component: ShownovelComponent },
   {path: 'updatenovel', component: UpdatenovelComponent },
   {path: 'createuser', component: CreateuserComponent },
-  {path: 'homepage', component: HomepageComponent },
+  {path: 'homepage', component: HomepageComponent },  
+  {path: 'comment', component: CommentComponent },
+  {path: 'showcomment', component: ShowcommentComponent },
+  {path: 'updatecomment', component: UpdatecommentComponent },
   {path: 'showwish', component: ShowwishComponent },
   {path: '', 
     redirectTo: 'signin',

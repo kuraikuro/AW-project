@@ -1,3 +1,10 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a routerLink="/homepage" class="navbar-brand btn btn-dark">หน้าหลัก</a>
+</nav>
+<br/>
 <h2>Wish</h2>
 <div class="table-responsive-md">
     <table class="table table-striped table-inverse">
@@ -13,6 +20,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of wishs; index as i">
+                <
                 <td scope="row"><img [src]="item.urlimg" style="height:150px;"></td>
                 <td>{{item.name}}</td>
                 <td>{{item.shortnote}}</td>
@@ -26,4 +34,3 @@
         </tbody>
     </table>
 </div>
-
