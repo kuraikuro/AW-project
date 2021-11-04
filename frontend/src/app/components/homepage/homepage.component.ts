@@ -57,4 +57,9 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(['/shownovel']);
   }
 
+  signout(){
+    this.local.clear();
+    this.router.navigate(['/signin']);
+  }
+
 }
