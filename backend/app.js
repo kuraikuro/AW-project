@@ -220,6 +220,22 @@ const findUser = (username) => {
     })
 }
 
+const findOneUser = (username) => {
+    return new Promise((resolve, reject) => {
+        Users.findOne({token: username},(err, data) => {
+            if(err){
+                reject(new Error('Cannont find username!'));
+            }else{
+                if(data){
+                    resolve({id: data._id,name: data.username, password: data.password})
+                }else{
+                    reject(new Error('Cannont find username!'));
+                }
+            }
+        })
+    })
+}
+
 const getAllUser = (uid) => {
     return new Promise ((resolve, reject) => {
         Users.find({}, (err, data) => {
@@ -444,7 +460,7 @@ expressApp.post('/login/signin',async(req,res) => {
     }
 })
 expressApp.get('/novel/homepage',authorization,(req,res)=>{
-    getAllUser()
+    findOneUser(req.body)
         .then(result => {
             console.log(result);
             res.status(200).json(result);
