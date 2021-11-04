@@ -43,7 +43,8 @@ export class ShownovelinformationComponent implements OnInit {
     try{
       this.nid =this.ps.getnid();
       console.log(this.nid);
-
+      this.uid =this.ps.getuid();
+      console.log(this.uid);
       this.ps.getOneNovel(this.nid).subscribe(
         data => {
           this.novel = data;

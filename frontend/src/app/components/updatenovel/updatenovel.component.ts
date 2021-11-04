@@ -69,37 +69,37 @@ export class UpdatenovelComponent implements OnInit {
     
     console.log(this.updateNovelForm.value)
   }
-  
-  onChangeImg(e:any){
-    if(e.target.files.length > 0){
-      const file = e.target.files[0];
-      var pattern = /image-*/;
-      const reader = new FileReader();
-      if(!file.type.match(pattern)){
-        alert('invalid format');
-        this.updateNovelForm
-        .reset();
-      }else{
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.previewLoaded = true;
-          this.updateNovelForm.patchValue({
-            urlimg: reader.result
-          });
-        };
-      }
-    }
+  get name(){
+    return this.updateNovelForm.get('name') as FormControl;
   }
+  get price(){
+    return this.updateNovelForm.get('price') as FormControl;
+  }
+  get shortnote(){
+    return this.updateNovelForm.get('shortnote') as FormControl;
+  }
+  get publisher(){
+    return this.updateNovelForm.get('publisher') as FormControl;
+  }
+ 
   clickupdatenovel(){
     
+    if((this.updateNovelForm.value.name == '') || 
+    (this.updateNovelForm.value.shortnote == '') || 
+    (this.updateNovelForm.value.publisher == '') 
+    ){
+      alert('โปรดกรอกลายระเอียดให้ครบถ้วน');
+    }else{
     this.ps.updateNovel(this.updateNovelForm.value).subscribe(
       data =>{
         console.log(data)
-        alert('novel updated successfully');
-        this.updateNovelForm.reset();
+        alert('แก้ไขนิยายสำเร็จ');
+        this.ps.passnovelId(this.getId);
+        this.router.navigate(['/shownovel']);
       },
         err => {
           console.log(err);
         });
+      }
   }
 }

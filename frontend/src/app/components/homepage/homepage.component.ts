@@ -53,10 +53,12 @@ export class HomepageComponent implements OnInit {
   }
   onClickNovel(value:any){
     this.nid.id =value;
+    console.log(this.user)
+    this.home.passuId(this.user);
     this.home.passnovelId(this.nid);
     this.router.navigate(['/shownovel']);
   }
-
+  
   signout(){
     this.local.clear();
     this.router.navigate(['/signin']);

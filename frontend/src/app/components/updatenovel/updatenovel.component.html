@@ -5,27 +5,47 @@
     <div class="card-body" >
         <img class="img-thumbnail" [src]="this.updateNovelForm.value.urlimg" style="height:150px;">
         <form [formGroup] = "updateNovelForm" >
-            
             <div class="form-group">
             <label for="name">ชื่อเรื่อง</label>
             <input type="text" class="form-control"  formControlName="name" required >
+            <div *ngIf="name.invalid && (name.dirty || name.touched) " 
+                            class="alert alert-danger">
+                                <div *ngIf="name.errors?.required" >
+                                    <strong>โปรดกรอกชื่อเรื่อง</strong>เว้นว่างไม่ได้
+                                </div>
+                            </div>
             </div>
             <div class="form-group">
                 <label for="shortnote">เนื้อเรื่องย่อ</label>
                 <input type="text" class="form-control" formControlName="shortnote" required>
+                <div *ngIf="shortnote.invalid && (shortnote.dirty || shortnote.touched) " 
+                            class="alert alert-danger">
+                                <div *ngIf="shortnote.errors?.required" >
+                                    <strong>โปรดกรอกเรื่องย่อ</strong>เว้นว่างไม่ได้
+                                </div>
+                            </div>
                 </div>
             <div class="form-group">
                 <label for="publisher">สำนักพิมพ์</label>
                 <input type="text" class="form-control" formControlName="publisher" required>
+                <div *ngIf="publisher.invalid && (publisher.dirty || publisher.touched) " 
+                            class="alert alert-danger">
+                                <div *ngIf="publisher.errors?.required" >
+                                    <strong>โปรดกรอกสำนักพิมพ์</strong>เว้นว่างไม่ได้
+                                </div>
+                            </div>
             </div>
             <div class="form-group">
                 <label for="price">ราคา</label>
                 <input type="text" class="form-control" formControlName="price" required>
+                <div *ngIf="price.invalid && (price.dirty || price.touched) " 
+                            class="alert alert-danger">
+                                <div *ngIf="price.errors?.required" >
+                                    <strong>โปรดกรอกราคา</strong>เว้นว่างไม่ได้
+                                </div>
+                            </div>
             </div>
-            <div class="form-group">
-                <label for="id">** กรอกรหัสหนังสือ </label>
-                <input type="text" class="form-control" formControlName="id" required>
-            </div>
+            
             <br>
             <button style="float: right;" class="btn btn-outline-success" type="submit" (click)="clickupdatenovel()">ตกลง</button>
         </form>
