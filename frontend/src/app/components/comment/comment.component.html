@@ -1,8 +1,9 @@
 <div class="card">
+    <form [formGroup]="commentForm">
     <div class="card-body">
         <h4 class="card-title">Comment</h4>
         <div class="form-group">
-            <input type="text" class="form-control" [formControl] ='comment'>
+            <input type="text" class="form-control" formControlName="commnet">
         </div>
         <br/>
         <div class="col-md-12">
@@ -10,4 +11,5 @@
           
         </div>
     </div>
-</div
+ </form>
+</div>

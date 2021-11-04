@@ -11,10 +11,21 @@ import { Router } from '@angular/router';
 export class CommentComponent implements OnInit {
   user: any;
   token!:string;
+  nid:any;
+  novel :any;
+  uid :any;
 
-  comment = new FormControl('');
+  commentForm = new FormGroup({
+    comments : new FormControl(''),
+    users : new FormControl(''),
+    nids : new FormControl(''),
 
-  constructor(private ns : NovelService, private router:Router, public local:LocalStorageService) { }
+
+  })
+
+  constructor(private ns : NovelService, private router:Router, public local:LocalStorageService) { 
+    this.loadNovel();
+   }
 
   ngOnInit(): void {
     try {
@@ -35,16 +46,38 @@ export class CommentComponent implements OnInit {
   }
 
   addComment(){
-    this.ns.addComment(this.comment.value).subscribe(
+    this.ns.addComment(this.commentForm.value).subscribe(
+      
       data => {
+        console.log(this.commentForm.value)
         console.log(data)
+        this.ns.passnovelId(this.nid);
         alert('comment added successfully');
-        this.comment.reset();
+        this.commentForm.reset();
+        window.location.reload();
       },
       err =>{
         console.log(err);
       }
     )
+  }
+
+  loadNovel(){
+    try{
+      this.nid =this.ns.getnid();
+      this.uid = this.ns.getuid();
+      console.log(this.nid);
+      this.commentForm.setValue({
+        comment:"",
+        nid:this.nid,
+        uid:this.uid,
+
+      })
+ 
+      
+    }catch(error){
+      console.log(error)
+    }
   }
 
   
