@@ -14,6 +14,7 @@ useUnifiedTopology: true
 };
 var Schema = require("mongoose").Schema;
 const novelSchema = Schema({
+    id:String,
     name :String,
 	price :Number,
 	shortnote : String,
@@ -47,6 +48,7 @@ try {
 }
 
 const commentSchema = Schema({
+    id:String,
     comment: String,
     uid : String,
     bid : String,
@@ -110,9 +112,9 @@ const addNovel = (novelData) => {
         });
     });
 }
-const updateNovel = (novelid,novelnewData) => {
+const updateNovel = (novelnewData) => {
     return new Promise((resolve,reject) => {
-        Novels.findOneAndUpdate({id:novelid},novelnewData,(err,data) => {
+        Novels.findOneAndUpdate({id:novelnewData.id},novelnewData,(err,data) => {
             if(err){
                 reject(new Error('Cannot update novel to DB'));
             }else{
@@ -123,7 +125,7 @@ const updateNovel = (novelid,novelnewData) => {
 }
 const deleteNovels = (novelid) =>{
     return new Promise ((resolve, reject) => {
-         Novels.findOneAndRemove({id:novelid},(err, data) => {
+         Novels.findOneAndRemove({id:novelid.id},(err, data) => {
             if(err){
                 reject(new Error('Cannont delete Novel'));
             }else{
@@ -153,7 +155,7 @@ const getallNovels = () => {
 }
 const getOneNovel = (nid) => {
     return new Promise ((resolve, reject) => {
-        Novels.find({id:nid}, (err, data) => {
+        Novels.find({id:nid.id}, (err, data) => {
             if(err){
                 reject(new Error('Cannont find Novel!'));
             }else{
@@ -218,21 +220,6 @@ const findUser = (username) => {
     })
 }
 
-const getOneUser = (uid) => {
-    return new Promise ((resolve, reject) => {
-        Novels.findOne({id:uid}, (err, data) => {
-            if(err){
-                reject(new Error('Cannont find User!'));
-            }else{
-                if(data){
-                    resolve(data)
-                }else{
-                    reject(new Error('Cannont find User!'));
-                }
-            }
-        })
-    });
-}
 
 /*config */
 const authorization = ((req,res,next) => {
@@ -304,18 +291,38 @@ const updateComment = (novelid,novelnewData) => {
 /*Wishs */
 const addWish = (wishData) => {
     return new Promise((resolve,reject) => {
+        var q = 0;
         var new_wish = new Wishs(
             wishData
         );
-        new_wish.save((err,data) => {
-            if(err){
-                reject(new Error('Cannot insert comment to DB'));
-            }else{
-                resolve({message: 'comment added successfully'});
+        Wishs.find({},(err,data)=>{
+            if(data){ 
+                for (let i = 0; i < data.length; i++) {
+                if((data[i].bid = wishData.bid) && (data[i].uid = wishData.uid) ){
+                    q++;
+                }else{
+                    q=0;
+                }
             }
-        });
+            if(q !=0){
+                reject(new Error('This wish has already been in DB'),{message: 'This wish has already been in DB'});
+            }else{
+                new_wish.save((err,data) => {
+                    if(err){
+                        reject(new Error('Cannot insert wish to DB'));
+                    }else{
+                        resolve({message: 'wish added successfully'});
+                    }
+                });
+            }
+
+              }else{
+                reject(err);
+              }
+        })
     });
 }
+
 const deleteWishs = (wishid) =>{
     return new Promise ((resolve, reject) => {
          Wishs.findOneAndRemove( {id:wishid},(err, data) => {
@@ -331,7 +338,7 @@ const deleteWishs = (wishid) =>{
         })
     });
 }
-/*const getSomeWish = (wishid) => {
+const getSomeWish = (wishid) => {
     return new Promise ((resolve, reject) => {
         Wishs.find({id:wishid}, (err, data) => {
             if(err){
@@ -345,7 +352,7 @@ const deleteWishs = (wishid) =>{
             }
         })
     });
-}*/
+}
 
 
 /*Route */
@@ -448,7 +455,7 @@ expressApp.get('/novel/get',(req,res)=>{
             console.log(err);
         })
 });
-expressApp.get('/novel/getone',(req,res)=>{
+expressApp.post('/novel/getone',(req,res)=>{
     console.log('find novel');
     getOneNovel(req.body)
         .then(result => {
@@ -459,7 +466,7 @@ expressApp.get('/novel/getone',(req,res)=>{
             console.log(err);
         })
 });
-expressApp.get('/user/wish',(req,res)=>{
+expressApp.post('/user/wish',(req,res)=>{
     console.log('get wish novel');
     getSomeWish(req.body)
         .then(result => {
