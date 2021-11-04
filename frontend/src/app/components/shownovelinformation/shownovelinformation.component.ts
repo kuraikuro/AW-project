@@ -83,6 +83,7 @@ export class ShownovelinformationComponent implements OnInit {
       this.ps.addWish(this.wish).subscribe(
         data => {
           this.novel = data;
+          alert('เพิ่มลงใน wish list สำเร็จ')
         },
           err=>{
             console.log(err)
