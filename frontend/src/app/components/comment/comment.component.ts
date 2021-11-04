@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { FormControl, FormGroup} from '@angular/forms';
 import { NovelService } from '../../services/novel.service';
 import { LocalStorageService } from 'angular-web-storage';
 import { Router } from '@angular/router';
+import { ShowcommentComponent } from '../showcomment/showcomment.component';
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
@@ -14,14 +15,17 @@ export class CommentComponent implements OnInit {
   nid:any;
   novel :any;
   uid :any;
-
+  comments:any;
+  setid:Number | undefined;
   commentForm = new FormGroup({
-    comments : new FormControl(''),
-    users : new FormControl(''),
-    nids : new FormControl(''),
+    id:new FormControl(''),
+    comment : new FormControl(''),
+    uid : new FormControl(''),
+    bid : new FormControl(''),
 
 
   })
+  
 
   constructor(private ns : NovelService, private router:Router, public local:LocalStorageService) { 
     this.loadNovel();
@@ -47,39 +51,51 @@ export class CommentComponent implements OnInit {
 
   addComment(){
     this.ns.addComment(this.commentForm.value).subscribe(
-      
       data => {
         console.log(this.commentForm.value)
         console.log(data)
         this.ns.passnovelId(this.nid);
         alert('comment added successfully');
-        this.commentForm.reset();
-        window.location.reload();
+        this.commentForm.reset();  
+        this.router.navigate(['/homepage']);
+        
       },
       err =>{
         console.log(err);
       }
     )
+    
   }
 
   loadNovel(){
     try{
+      console.log('load work')
       this.nid =this.ns.getnid();
       this.uid = this.ns.getuid();
       console.log(this.nid);
-      this.commentForm.setValue({
-        comment:"",
-        nid:this.nid,
-        uid:this.uid,
-
-      })
- 
+      console.log(this.uid);
+      this.ns.getSomeComment(this.nid).subscribe(
+        data => {
+          this.comments = data;
+          this.setid=this.comments.length
+          console.log(this.setid)
+          this.commentForm.setValue({
+            id:this.setid,
+            comment:"",
+            uid:this.uid,
+            bid:this.nid.id,
+    
+          })
+        },
+        err =>{
+          console.log(err);
+        }
+      );
+      
+      console.log(this.commentForm.value)
       
     }catch(error){
       console.log(error)
     }
   }
-
-  
-
   }

@@ -14,10 +14,9 @@ export class ShowwishComponent implements OnInit {
   user: any;
   token!:string;
   wishs: any
-  uid = "616c25b293bf9f9e178336f9"
-  wid = "616c25cd93bf9f9e178336fd"
-
-
+  uid = "BB6102845";
+  wid = "616c25cd93bf9f9e178336fd";
+  wn:any[] = [];
   constructor(private ns : NovelService, private router:Router, public local:LocalStorageService) { 
     this.showWish();
    }
@@ -38,12 +37,23 @@ export class ShowwishComponent implements OnInit {
       this.router.navigate(['/signin']);
     }
   }
-
+  loadnovel(){
+    console.log(this.wishs);
+    for(let i = 0 ; i< this.wishs.length;i++)
+    {this.ns.getOneForWish(this.wishs[i]).subscribe(
+    data => {
+      console.log(data)
+      this.wn.push(data[0]);
+    }
+  )}
+    console.log(this.wn)
+  }
   showWish(){
     try{
       this.ns.getSomeWish(this.uid).subscribe(
         data => {
           this.wishs = data;
+          this.loadnovel();
         },
         err =>{
           console.log(err);

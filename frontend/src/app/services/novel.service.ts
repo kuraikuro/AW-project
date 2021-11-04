@@ -8,17 +8,26 @@ import { LocalStorageService } from 'angular-web-storage';
 })
 export class NovelService {
   allnovels:any;
+  allcomments:any;
   onenovels:any;
   comments:any;
-  onecomments:any;
   wishs:any;
   oneuser:any;
   uid:any;
   nid:any;
+  cid:any;
   user:any;
-
+  onecomments:any;
   constructor(private http:HttpClient, public local:LocalStorageService) { }
 
+  passcommentId(rawdata:any){
+    this.cid = rawdata;
+    console.log('passid')
+  }
+  getcid(){
+    console.log(this.cid)
+    return this.cid;
+  }
   passnovelId(rawdata:any){
     this.nid = rawdata;
     console.log('passid')
@@ -27,13 +36,10 @@ export class NovelService {
     console.log(this.nid)
     return this.nid;
   }
-  getcomment(){
-    console.log(this.comments)
-    return this.comments;
-  }
   passuId(rawdata:any){
     this.uid = rawdata.name;
-    console.log('passid')
+
+    console.log(this.uid)
   }
   getuid(){
     console.log(this.uid)
@@ -103,6 +109,17 @@ export class NovelService {
       return this.onenovels;
     }));
   }
+  getOneForWish(nid :any){
+    console.log(nid);
+    return this.http.post<any>('http://localhost:3000/wish/getone',nid)
+    .pipe(map(data =>{
+      if(data){
+        this.onenovels = data;
+        console.log(this.onenovels);
+      }
+      return this.onenovels;
+    }));
+  }
   updateNovel(newnovel:any){
     console.log(newnovel);
     return this.http.put<any>('http://localhost:3000/novel/update',newnovel)
@@ -137,14 +154,11 @@ export class NovelService {
       return data;
     }));
   }
-  getSomeComment(nid:any){
-    return this.http.post<any>('http://localhost:3000/novel/comment',nid)
+  updateComment(comment:any){
+    console.log(comment);
+    return this.http.put<any>('http://localhost:3000/comment/update',comment)
     .pipe(map(data =>{
-      if(data){
-        this.comments = data;
-        console.log(this.comments);
-      }
-      return this.comments;
+      return data;
     }));
   }
   getOneComment(comment :any){
@@ -158,14 +172,17 @@ export class NovelService {
       return this.onecomments;
     }));
   }
-  updateComment(comment:any){
-    console.log(comment);
-    return this.http.put<any>('http://localhost:3000/novel/update',comment)
+  getSomeComment(nid:any){
+    return this.http.post<any>('http://localhost:3000/novel/comment',nid)
     .pipe(map(data =>{
-      return data;
+      if(data){
+        this.comments = data;
+        console.log(this.comments);
+      }
+      return this.comments;
     }));
   }
-
+  
   addWish(wish:any){
     return this.http.post<any>('http://localhost:3000/wish/add',wish)
     .pipe(map(data =>{
@@ -183,14 +200,7 @@ export class NovelService {
     }));
   }
   deleteWish(wid:any){
-    let options ={
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      body:wid,
-    };
-    console.log(wid)
-    return this.http.delete<any>('http://localhost:3000/wish/delete',options)
+    return this.http.delete<any>('http://localhost:3000/wish/delete',wid)
     .pipe(map(data =>{
       return data;
     }));

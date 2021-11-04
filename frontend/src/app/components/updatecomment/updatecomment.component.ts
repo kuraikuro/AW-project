@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ShowcommentComponent } from '../showcomment/showcomment.component';
-import { FormControl, FormGroup,Validators} from '@angular/forms';
 import { NovelService } from 'src/app/services/novel.service';
-import { LocalStorageService } from 'angular-web-storage';
+import { FormControl, FormGroup,Validators} from '@angular/forms';
+import { ShowcommentComponent } from '../showcomment/showcomment.component';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-updatecomment',
@@ -12,54 +10,33 @@ import { Router } from '@angular/router';
   styleUrls: ['./updatecomment.component.css']
 })
 export class UpdatecommentComponent implements OnInit {
-
-  user: any;
-  token!:string;
   getId:any;
   comment:any;
-  
+
   updateCommentForm = new FormGroup({
     id: new FormControl('',[Validators.required]),
-    comment: new FormControl('',[Validators.required])
+    comment: new FormControl('',[Validators.required]),
+    uid : new FormControl(''),
+    bid : new FormControl(''),
   })
   previewLoaded: boolean = false;
 
-  constructor(private ps: NovelService, private router:Router, public local:LocalStorageService) { 
+  constructor(private ps: NovelService, private router:Router) { 
     this.LoadComment();
   }
 
   ngOnInit(): void {
-    try {
-      this.token = this.local.get('user').token
-      this.ps.getAllUser(this.token).subscribe(
-        data => {
-          this.user = data;
-        },
-        err => {
-          this.router.navigate(['/signin']);
-        }
-      );
-    } catch (error) {
-      console.log(error);
-      this.router.navigate(['/signin']);
-    }
   }
+
   LoadComment(){
-    this.getId = this.ps.getcomment();
-    console.log(this.getId)
-    this.ps.getOneComment(this.getId).subscribe(
-      data => {
-        this.comment = data;
-        console.log(this.comment[0].id);
-        this.updateCommentForm.setValue({
-          id:this.comment[0].id,
-          comment:this.comment[0].comment,
-        });
-      },
-      err =>{
-        console.log(err)
-      }
-    );
+    this.getId = this.ps.getcid();
+    console.log(this.getId.id)
+    this.updateCommentForm.setValue({
+      id:this.getId.id,
+      comment:this.getId.comment,
+      uid:this.getId.uid,
+      bid:this.getId.bid
+    });
     console.log(this.updateCommentForm.value)
   }
 
