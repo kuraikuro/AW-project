@@ -27,12 +27,12 @@ export class NovelService {
     return this.nid;
   }
   passuId(rawdata:any){
-    this.uid = rawdata;
+    this.uid = rawdata.name;
     console.log('passid')
   }
   getuid(){
     console.log(this.uid)
-    return this.nid;
+    return this.uid;
   }
   signIn(userData: any){
     return this.http.post<any>('http://localhost:3000/login/signin',userData)
