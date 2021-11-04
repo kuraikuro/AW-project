@@ -8,7 +8,6 @@ import { AngularWebStorageModule } from 'angular-web-storage';
 
 import { HttpClientModule} from '@angular/common/http';
 import { CreateComponent } from './components/create/create.component';
-import { WishComponent } from './components/wish/wish.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { CommentComponent } from './components/comment/comment.component';
 
@@ -30,7 +29,6 @@ import { UpdatecommentComponent } from './components/updatecomment/updatecomment
   declarations: [
     AppComponent,
     CreateComponent,
-    WishComponent,
     SigninComponent,
     CommentComponent,
     ShowcommentComponent,
