@@ -1,5 +1,5 @@
 <div class = "container-fluid" style="margin-top: 40px;">
-    <h2>เพิ่มงานเขียนใหม่</h2>
+    <h2>เพิ่มหนังสือแนะนำใหม่</h2>
 </div>
 
 <br>
@@ -10,7 +10,7 @@
             <div class="col-md-5">
                 <div class="text-center">
                     <div class="form-group">
-                        <input type="file" class="form-control-file" formControlName='file' (change)="onChangeImg($event)">
+                        <input type="file" class="form-control" id="formFile" formControlName='file' (change)="onChangeImg($event)">
                     </div>
                     <br>
                     <div >
@@ -21,7 +21,7 @@
 
             <div class="col-md-7">
                 <div class="card border-info">
-                    <h4 class="card-header border-info bg-info text-white">งานเขียนใหม่</h4>
+                    <h4 class="card-header border-info bg-info text-white">หนังสือแนะนำใหม่</h4>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
@@ -69,7 +69,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-3">
-                                <h5>เนื้อหา : </h5>
+                                <h5>เรื่องย่อ : </h5>
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
@@ -79,8 +79,8 @@
                         </div>
                         <br>
                         <div class="text-end">
-                            <button type="button" class="btn btn-primary" (click)="addNovel()">บันทึกงานเขียน</button>&nbsp;
-                            <button type="button" class="btn btn-danger" (click)="cancel()">ยกเลิกงานเขียน</button>
+                            <button type="button" class="btn btn-primary" (click)="addNovel()">บันทึกหนังสือแนะนำใหม่</button>&nbsp;
+                            <button type="button" class="btn btn-danger" (click)="cancel()">ยกเลิกหนังสือแนะนำใหม่</button>
                         </div>
                     </div>
                 </div>

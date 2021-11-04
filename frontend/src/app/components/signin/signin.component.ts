@@ -23,6 +23,11 @@ export class SigninComponent implements OnInit {
   }
 
   signin(){
+    if((this.userForm.value.username == '') || 
+    (this.userForm.value.password == '') 
+    ){
+      alert('โปรดกรอกยูเซอร์เนมและรหัสผ่านเพื่อทำการเข้าสู่ระบบ');
+    }else{
     this.user.signIn(this.userForm.value).subscribe(
       data => {
         if(data.status == true){
@@ -35,8 +40,8 @@ export class SigninComponent implements OnInit {
       err =>{
         console.log(err);
         alert('User or password is incorrect!');
-      }
-    );
+      });
+    }
   }
 
   signup(){

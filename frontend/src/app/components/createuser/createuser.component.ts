@@ -38,7 +38,7 @@ export class CreateuserComponent implements OnInit {
     (this.userForm.value.username == '') || 
     (this.userForm.value.password == '') 
     ){
-      alert('โปรดกรอกลายระเอียดให้ครบถ้วน');
+      alert('โปรดกรอกลายระเอียดบัญชีให้ครบถ้วน');
     }else{
     this.cuser.signUp(this.userForm.value).subscribe(
       data => {
@@ -46,7 +46,7 @@ export class CreateuserComponent implements OnInit {
         this.router.navigate(['/signin']);
       },
       err=>{
-        alert('สมัคสมาชิคล้มเหลว')
+        alert('สมัคสมาชิกล้มเหลว')
       });
     }
   }
