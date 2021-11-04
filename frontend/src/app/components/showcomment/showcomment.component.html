@@ -1,13 +1,11 @@
 <div class="container-fluid" style="margin-top:30px">
     <div class="row">
         <div class="col-md-12">
-            
             <div class="table-responsive-md">
                 <table class="table table-striped table-inverse">
                     <thead class="thead-inverse">
                         <tr>
                             <th>ความคิดเห็นทั้งหมด</th>
-                           
                         </tr>
                     </thead>
                     <tbody>
@@ -15,13 +13,11 @@
                             <td scope="row">{{item.uid}}</td>
                             <td>{{item.comment}}</td>
                             <td>
-                                <a class="btn btn-danger" href="#"  >
-                                    <i class="fa fa-trash-o fa-lg" >แก้ไข</i>
+                                <a class="btn btn-danger" >
+                                    <i class="fa fa-trash-o fa-lg" (click)="edit(i)" >แก้ไข</i>
                                 </a>
                             </td>
-                            
                         </tr>
-
                     </tbody>
                 </table>
             </div>

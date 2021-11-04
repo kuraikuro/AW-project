@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup} from '@angular/forms'
+import { Component, OnInit} from '@angular/core';
+
 import { Router } from '@angular/router';
 import { NovelService } from 'src/app/services/novel.service'; 
 
@@ -9,26 +9,23 @@ import { NovelService } from 'src/app/services/novel.service';
   styleUrls: ['./showcomment.component.css']
 })
 export class ShowcommentComponent implements OnInit {
-  comments: any
-  nid = "2"
-  uid = "10001"
-  oneusers = "abc"
-  book = new FormGroup({
-    bid: new FormControl('2')
-  })
+  comments: any;
+  nid :any;
+  uid:any;
 
   constructor(private ns : NovelService, private router:Router) { 
     this.showComment();
-    this.showUser();
+
    }
 
   ngOnInit(): void {
   }
 
   showComment(){
-    console.log(this.book.value)
+    
     try{
-      this.ns.getSomeComment(this.book.value).subscribe(
+      this.nid=this.ns.getnid();
+      this.ns.getSomeComment(this.nid).subscribe(
         data => {
           this.comments = data;
         },
@@ -41,21 +38,9 @@ export class ShowcommentComponent implements OnInit {
     }
   }
 
-  showUser(){
-    try{
-      this.ns.getAllUser(this.uid).subscribe(
-        data => {
-          this.oneusers = data;
-        },
-        err =>{
-          console.log(err);
-        }
-      );
-    }catch (error){
-      console.log(error);
-    }
-  }
-   edit(){
+   edit(i:any){
+     console.log(this.comments[i])
+     this.ns.passcommentId(this.comments[i])
      this.router.navigate(['/updatecomment']);
    }
 

@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const key = 'KEY';
-
 const url = 'mongodb://localhost:27017/Noveldatabase';
 const config = {
 autoIndex: true,
@@ -48,7 +47,7 @@ try {
 }
 
 const commentSchema = Schema({
-    id:String,
+    id:Number,
     comment: String,
     uid : String,
     bid : String,
@@ -57,6 +56,7 @@ const commentSchema = Schema({
 collection: 'Comment'
 });
 let Comments
+
 try {
     Comments = mongoose.model('Comment')
 } catch (error) {
@@ -164,7 +164,8 @@ const getallNovels = () => {
                 reject(new Error('Cannont get Novels!'));
             }else{
                 if(data){
-                    resolve(data)
+                    
+                    resolve(data);
                 }else{
                     reject(new Error('Cannont get Novels!'));
                 }
@@ -187,7 +188,21 @@ const getOneNovel = (nid) => {
         })
     });
 }
-
+const getForWish = (nid) => {
+    return new Promise ((resolve, reject) => {
+        Novels.find({id:nid.bid}, (err, data) => {
+            if(err){
+                reject(new Error('Cannont find Novel!'));
+            }else{
+                if(data){
+                    resolve(data)
+                }else{
+                    reject(new Error('Cannont find Novel!'));
+                }
+            }
+        })
+    });
+}
 /*Users*/
 const makeHash = async(plainText) => {
     const result = await bcrypt.hash(plainText,10);
@@ -229,7 +244,6 @@ const inserUser = (dataUser) => {
         })
     });
 }
-
 const compareHash = async(plainText,hashText) => {
     return new Promise((resolve,reject) => {
         bcrypt.compare(plainText, hashText, (err,data)=>{
@@ -274,23 +288,6 @@ const findOneUser = (username) => {
     })
 }
 
-const getAllUser = (uid) => {
-    return new Promise ((resolve, reject) => {
-        Users.find({}, (err, data) => {
-            if(err){
-                reject(new Error('Cannont find User!'));
-            }else{
-                if(data){
-                    resolve(data)
-                }else{
-                    reject(new Error('Cannont find User!'));
-                }
-            }
-        })
-    });
-}
-
-
 /*config */
 const authorization = ((req,res,next) => {
     const token = req.headers['authorization'];
@@ -317,7 +314,6 @@ const authorization = ((req,res,next) => {
 
 /*Comments */
 const addComment = (commentData) => {
-   
     return new Promise((resolve,reject) => {
         var new_comment = new Comments(
             commentData
@@ -334,11 +330,12 @@ const addComment = (commentData) => {
 const getSomeComment = (novelid) => {
     console.log(novelid)
     return new Promise ((resolve, reject) => {
-        Comments.find({bid:novelid.bid}, (err, data) => {
+        Comments.find({bid:novelid.id}, (err, data) => {
             if(err){
                 reject(new Error('Cannont get Comment!'));
             }else{
                 if(data){
+                    console.log(data)
                     resolve(data)
                 }else{
                     reject(new Error('Cannont get Comment!'));
@@ -348,31 +345,33 @@ const getSomeComment = (novelid) => {
     });
 }
 
-const getOneComment = (cid) => {
-    return new Promise ((resolve, reject) => {
-        Comments.find({id:cid}, (err, data) => {
-            if(err){
-                reject(new Error('Cannont find One Comment!'));
-            }else{
-                if(data){
-                    resolve(data)
-                }else{
-                    reject(new Error('Cannont find One Comment!'));
-                }
-            }
-        })
-    });
-}
-
-const updateComment = (commnetid,commentnewData) => {
+const updateComment = (commentData) => {
     return new Promise((resolve,reject) => {
-        Comments.findOneAndUpdate({id:commentid},commentnewData,(err,data) => {
+        Comments.findOneAndUpdate({id:commentData.id},commentData,(err,data) => {
             if(err){
                 reject(new Error('Cannot update comment to DB'));
             }else{
                 resolve({message: 'comment update successfully'});
             }
         });
+    });
+}
+const getonecomment = (cid) => {
+    console.log('work')
+    return new Promise ((resolve, reject) => {
+        Comments.find({id:cid.id}, (err, data) => {
+            if(err){
+                reject(new Error('Cannont get comment!'));
+            }else{
+                if(data){
+                    console.log('work')
+                    console.log(data)
+                    resolve(data)
+                }else{
+                    reject(new Error('Cannont get comment!'));
+                }
+            }
+        })
     });
 }
 /*Wishs */
@@ -385,7 +384,7 @@ const addWish = (wishData) => {
         Wishs.find({},(err,data)=>{
             if(data){ 
                 for (let i = 0; i < data.length; i++) {
-                if((data[i].bid = wishData.bid) && (data[i].uid = wishData.uid) ){
+                if((data[i].bid == wishData.bid) && (data[i].uid == wishData.uid) ){
                     q++;
                 }else{
                     q=0;
@@ -441,7 +440,6 @@ const getSomeWish = (wishid) => {
     });
 }
 
-
 /*Route */
 expressApp.post('/novel/add',(req,res)=>{
     console.log('add novel');
@@ -487,7 +485,7 @@ expressApp.post('/login/signin',async(req,res) => {
         const status = loginStatus.status;
 
         if(status){
-            const token = jwt.sign(result, key, {expiresIn: 60*5});
+            const token = jwt.sign(result, key, {expiresIn: 60*60});
             res.status(200).json({result,token,status});
             console.log(token)
         }else{
@@ -530,6 +528,16 @@ expressApp.post('/comment/add',(req,res)=>{
             console.log(err);
         })
 });
+expressApp.post('/comment/getone',(req,res)=>{
+    console.log('comment');
+    getonecomment(req.body)
+        .then(result => {
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
 
 expressApp.get('/novel/get',(req,res)=>{
     console.log('get novel');
@@ -547,6 +555,17 @@ expressApp.post('/novel/getone',(req,res)=>{
     getOneNovel(req.body)
         .then(result => {
             
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
+expressApp.post('/wish/getone',(req,res)=>{
+    console.log('find novel');
+    getForWish(req.body)
+        .then(result => {
+            console.log(result)
             res.status(200).json(result);
         })
         .catch(err => {
@@ -576,19 +595,6 @@ expressApp.post('/novel/comment',(req,res)=>{
             console.log(err);
         })
 });
-
-expressApp.get('/comment/getone',(req,res)=>{
-    console.log('find comment');
-    getOneComment(req.body)
-        .then(result => {
-            
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-});
-
 expressApp.delete('/novel/delete',(req,res)=>{
     console.log('delete novel');
     deleteNovels(req.body)
@@ -625,7 +631,6 @@ expressApp.put('/novel/update',(req,res)=>{
 });
 expressApp.put('/comment/update',(req,res)=>{
     console.log('update comment');
-    console.log(req.body);
     updateComment(req.body)
         .then(result => {
             console.log(result);
@@ -635,7 +640,6 @@ expressApp.put('/comment/update',(req,res)=>{
             console.log(err);
         })
 });
-
 
 expressApp.listen(3000, function(){
     console.log('Listening on port 3000');

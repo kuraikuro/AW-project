@@ -1,16 +1,25 @@
 <div class="container" style="margin-top: 60px;">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Edit Comment</h4>
-            <div class="form-group">
-                <input type="text" class="form-control" [formControl] ='comment'>
-            </div>
-            <br/>
-            <div class="col-md-12">
-                <button type="button" (click) = "clickupdatecommnet()" class="btn btn-primary" >Submit</button>&nbsp;
-                <button type="button" class="btn btn-info" (click)="backpage()">Back</button>
-              
-            </div>
+            <h4 class="card-title">แก้ไขความคิดเห็น</h4>
+            <form [formGroup]="updateCommentForm">
+                <div class="form-group">
+                    <label for="comment"></label>
+                    <input type="text" class="form-control"  formControlName="comment" required >
+                    <div *ngIf="comment.invalid && (comment.dirty || comment.touched) " 
+                                    class="alert alert-danger">
+                                        <div *ngIf="comment.errors?.required" >
+                                            เว้นว่างไม่ได้
+                                        </div>
+                                    </div>
+                    </div>
+                <br/>
+                <div class="col-md-12">
+                    <button type="button" (click) = "clickupdatecommnet()" class="btn btn-primary" >Submit</button>&nbsp;
+                    <button type="button" class="btn btn-info" (click)="backpage()">Back</button>
+                  
+                </div>
+            </form>
         </div>
     </div>
 </div>
