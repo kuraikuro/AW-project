@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
 import { NovelService } from 'src/app/services/novel.service';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'angular-web-storage';
 @Component({
   selector: 'app-updatenovel',
   templateUrl: './updatenovel.component.html',
@@ -9,6 +11,8 @@ import { NovelService } from 'src/app/services/novel.service';
 export class UpdatenovelComponent implements OnInit {
   getId:any;
   novel:any;
+  user: any;
+  token!:string;
   
   updateNovelForm = new FormGroup({
     id:new FormControl('',[Validators.required]),
@@ -20,12 +24,26 @@ export class UpdatenovelComponent implements OnInit {
     urlimg: new FormControl('',[Validators.required]),
     })
     previewLoaded: boolean = false;
-  constructor(private ps: NovelService) {
+  constructor(private ps: NovelService, private router:Router, public local:LocalStorageService) {
     this.onLoading();
 
    }
 
   ngOnInit(): void {
+    try {
+      this.token = this.local.get('user').token
+      this.ps.getAllUser(this.token).subscribe(
+        data => {
+          this.user = data;
+        },
+        err => {
+          this.router.navigate(['/signin']);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      this.router.navigate(['/signin']);
+    }
   }
   onLoading(){
     this.getId = this.ps.getnid();
