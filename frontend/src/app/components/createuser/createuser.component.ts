@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NovelService } from 'src/app/services/novel.service';
 
@@ -11,10 +11,22 @@ import { NovelService } from 'src/app/services/novel.service';
 export class CreateuserComponent implements OnInit {
 
   userForm = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
-    email: new FormControl(''),
+    username: new FormControl('',[Validators.required]),
+    password: new FormControl('',[Validators.required]),
+    email: new FormControl('',[Validators.required, Validators.email]),
   })
+
+  get email() { 
+    return this.userForm.get('email'); 
+  }
+
+  get username() { 
+    return this.userForm.get('username'); 
+  }
+
+  get password() { 
+    return this.userForm.get('password'); 
+  }
 
   constructor(private cuser:NovelService, private router:Router) { }
 
@@ -22,6 +34,12 @@ export class CreateuserComponent implements OnInit {
   }
 
   signup(){
+    if((this.userForm.value.email == '') || 
+    (this.userForm.value.username == '') || 
+    (this.userForm.value.password == '') 
+    ){
+      alert('โปรดกรอกลายระเอียดให้ครบถ้วน');
+    }else{
     this.cuser.signUp(this.userForm.value).subscribe(
       data => {
         alert(data.message)
@@ -29,8 +47,8 @@ export class CreateuserComponent implements OnInit {
       },
       err=>{
         alert('สมัคสมาชิคล้มเหลว')
-      }
-    )
+      });
+    }
   }
 
   cancel(){

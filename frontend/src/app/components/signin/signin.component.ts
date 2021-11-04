@@ -23,7 +23,6 @@ export class SigninComponent implements OnInit {
   }
 
   signin(){
-    console.log(this.userForm.value)
     this.user.signIn(this.userForm.value).subscribe(
       data => {
         if(data.status == true){

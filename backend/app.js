@@ -100,16 +100,35 @@ expressApp.use((req, res, next) => {
 /*Novels */
 const addNovel = (novelData) => {
     return new Promise((resolve,reject) => {
+        var q = 0;
         var new_novel = new Novels(
             novelData
         );
-        new_novel.save((err,data) => {
-            if(err){
-                reject(new Error('Cannot insert novel to DB'));
-            }else{
-                resolve({message: 'novel added successfully'});
+        Novels.find({},(err,data)=>{
+            if(data){ 
+                for (let i = 0; i < data.length; i++) {
+                if(data[i].id == novelData.id){
+                    q++;
+                }else{
+                    q=0;
+                }
             }
-        });
+            if(q !=0){
+                reject(new Error('This novel has already been in DB'),{message: 'This novel has already been in DB'});
+            }else{
+                new_novel.save((err,data) => {
+                    if(err){
+                        reject(new Error('Cannot insert novel to DB'));
+                    }else{
+                        resolve({message: 'novel added successfully'});
+                    }
+                });
+            }
+
+              }else{
+                reject(err);
+              }
+        })
     });
 }
 const updateNovel = (novelnewData) => {
@@ -177,18 +196,37 @@ const makeHash = async(plainText) => {
 
 const inserUser = (dataUser) => {
     return new Promise ((resolve, reject) => {
+        var q = 0;
         var new_user = new Users({
             username: dataUser.username,
             password: dataUser.password,
             email: dataUser.email
         });
-        new_user.save((err,data) => {
-            if(err){
-                reject(new Error('Cannot insert user to DB!'));
-            }else{
-                resolve({message: 'Singn up successfully'});
+        Users.find({},(err,data)=>{
+            if(data){ 
+                for (let i = 0; i < data.length; i++) {
+                if(data[i].username == dataUser.username){
+                    q++;
+                }else{
+                    q=0;
+                }
             }
-        });
+            if(q !=0){
+                reject(new Error('This user has already been in DB'),{message: 'This user has already been in DB'});
+            }else{
+                new_user.save((err,data) => {
+                    if(err){
+                        reject(new Error('Cannot insert user to DB'));
+                    }else{
+                        resolve({message: 'user added successfully'});
+                    }
+                });
+            }
+
+              }else{
+                reject(err);
+              }
+        })
     });
 }
 

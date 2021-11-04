@@ -47,6 +47,13 @@ export class CreateComponent implements OnInit {
   }
 
   addNovel(){
+    if((this.createForm.value.id == '') || 
+    (this.createForm.value.name == '') || 
+    (this.createForm.value.price == '') ||
+    (this.createForm.value.shortnote == '')
+    ){
+      alert('โปรดกรอกลายระเอียดให้ครบถ้วน');
+    }else{
     this.cn.addNovel(this.createForm.value).subscribe(
       data => {
         console.log(data)
@@ -57,6 +64,7 @@ export class CreateComponent implements OnInit {
         err => {
           console.log(err);
         });
+    }
   }
 
   onChangeImg(e:any){
