@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup} from '@angular/forms'
+import { Router } from '@angular/router';
 import { NovelService } from 'src/app/services/novel.service'; 
 
 @Component({
@@ -16,7 +17,7 @@ export class ShowcommentComponent implements OnInit {
     bid: new FormControl('2')
   })
 
-  constructor(private ns : NovelService) { 
+  constructor(private ns : NovelService, private router:Router) { 
     this.showComment();
     this.showUser();
    }
@@ -42,7 +43,7 @@ export class ShowcommentComponent implements OnInit {
 
   showUser(){
     try{
-      this.ns.getOneUser(this.uid).subscribe(
+      this.ns.getAllUser(this.uid).subscribe(
         data => {
           this.oneusers = data;
         },
@@ -54,6 +55,8 @@ export class ShowcommentComponent implements OnInit {
       console.log(error);
     }
   }
-   
+   edit(){
+     this.router.navigate(['/updatecomment']);
+   }
 
 }
