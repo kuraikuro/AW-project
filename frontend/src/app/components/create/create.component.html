@@ -47,6 +47,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <input type="text" class="form-control" formControlName='id'>
+                                    <div *ngIf="id?.invalid && (id?.dirty || id?.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="id?.errors?.required">
+                                        โปรดระบุไอดี
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -58,6 +64,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <input type="text" class="form-control" formControlName='name'>
+                                    <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="name?.errors?.required">
+                                        โปรดระบุชื่อเรื่อง
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -69,6 +81,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <input type="number" class="form-control" formControlName='price'>
+                                    <div *ngIf="price?.invalid && (price?.dirty || price?.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="id?.errors?.required">
+                                        โปรดระบุราคา
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -80,6 +98,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <input type="text" class="form-control" formControlName='publisher'>
+                                    <div *ngIf="publisher?.invalid && (publisher?.dirty || publisher?.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="publisher?.errors?.required">
+                                        โปรดระบุสำนักพิมพ์
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -91,6 +115,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <textarea type="text" class="form-control" rows="15" formControlName='shortnote'></textarea>
+                                    <div *ngIf="shortnote?.invalid && (shortnote?.dirty || shortnote?.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="shortnote?.errors?.required">
+                                        โปรดระบุเรื่องย่อของหนังสือ
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>

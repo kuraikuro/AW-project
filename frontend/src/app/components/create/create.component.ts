@@ -27,6 +27,22 @@ export class CreateComponent implements OnInit {
   
   previewLoaded: boolean = false;
 
+  get id() { 
+    return this.createForm.get('id'); 
+  }
+  get name() { 
+    return this.createForm.get('name'); 
+  }
+  get price() { 
+    return this.createForm.get('price'); 
+  }
+  get publisher() { 
+    return this.createForm.get('price'); 
+  }
+  get shortnote() { 
+    return this.createForm.get('shortnote'); 
+  }
+
   constructor( private cn: NovelService, private router:Router, public local:LocalStorageService) { }
 
   ngOnInit(): void {
