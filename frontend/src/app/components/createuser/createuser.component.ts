@@ -48,7 +48,6 @@ export class CreateuserComponent implements OnInit {
       },
       err=>{
         console.log(err);
-        alert('สมัคสมาชิกล้มเหลว ยูเซอร์เนมนี้ถูกใช้ไปแล้ว')
       });
     }
   }

@@ -77,9 +77,9 @@ export class CommentComponent implements OnInit {
       console.log(this.nid);
       console.log(this.uid);
       this.ns.getSomeComment(this.nid).subscribe(
-        data => {
+        data => { 
           this.comments = data;
-          this.setid=this.comments.length
+          this.setid=this.comments.length+1;
           console.log(this.setid)
           this.commentForm.setValue({
             id:this.setid,
