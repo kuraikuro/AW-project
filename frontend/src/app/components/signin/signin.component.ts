@@ -39,7 +39,6 @@ export class SigninComponent implements OnInit {
       },
       err =>{
         console.log(err);
-        alert('User or password is incorrect!');
       });
     }
   }

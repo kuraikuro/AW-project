@@ -328,14 +328,12 @@ const addComment = (commentData) => {
     });
 }
 const getSomeComment = (novelid) => {
-    console.log(novelid)
     return new Promise ((resolve, reject) => {
         Comments.find({bid:novelid.id}, (err, data) => {
             if(err){
                 reject(new Error('Cannont get Comment!'));
             }else{
                 if(data){
-                    console.log(data)
                     resolve(data)
                 }else{
                     reject(new Error('Cannont get Comment!'));
@@ -347,7 +345,7 @@ const getSomeComment = (novelid) => {
 
 const updateComment = (commentData) => {
     return new Promise((resolve,reject) => {
-        Comments.findOneAndUpdate({id:commentData.id},commentData,(err,data) => {
+        Comments.findOneAndUpdate({id:commentData.id,uid:commentData.uid,bid:commentData.bid},commentData,(err,data) => {
             if(err){
                 reject(new Error('Cannot update comment to DB'));
             }else{
@@ -357,15 +355,12 @@ const updateComment = (commentData) => {
     });
 }
 const getonecomment = (cid) => {
-    console.log('work')
     return new Promise ((resolve, reject) => {
         Comments.find({id:cid.id}, (err, data) => {
             if(err){
                 reject(new Error('Cannont get comment!'));
             }else{
                 if(data){
-                    console.log('work')
-                    console.log(data)
                     resolve(data)
                 }else{
                     reject(new Error('Cannont get comment!'));
@@ -411,7 +406,6 @@ const addWish = (wishData) => {
 
 const deleteWishs = (wishid) =>{
     return new Promise ((resolve, reject) => {
-        console.log(wishid)
          Wishs.findOneAndRemove( {uid:wishid.uid,bid:wishid.bid},(err, data) => {
             if(err){
                 reject(new Error('Cannont delete wish'));
@@ -443,10 +437,8 @@ const getSomeWish = (wishid) => {
 
 /*Route */
 expressApp.post('/novel/add',(req,res)=>{
-    console.log('add novel');
     addNovel(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -461,10 +453,8 @@ expressApp.post('/user/signup',(req,res)=>{
                     password: hashText,
                     email: req.body.email
                 }
-                console.log(playload);
                 inserUser(playload)
                 .then(result => {
-                    console.log(result);
                     res.status(200).json(result);
                 })
                 .catch(err => {
@@ -479,7 +469,6 @@ expressApp.post('/login/signin',async(req,res) => {
         username: req.body.username,
         password: req.body.password
     };
-    console.log(playload);
     try{
         const result =await findUser(playload.username);
         const loginStatus = await compareHash(playload.password, result.password);
@@ -500,7 +489,6 @@ expressApp.post('/login/signin',async(req,res) => {
 expressApp.get('/novel/homepage',authorization,(req,res)=>{
     findOneUser(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -508,10 +496,8 @@ expressApp.get('/novel/homepage',authorization,(req,res)=>{
         })
 });
 expressApp.post('/wish/add',(req,res)=>{
-    console.log('add wish');
     addWish(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -519,10 +505,8 @@ expressApp.post('/wish/add',(req,res)=>{
         })
 });
 expressApp.post('/comment/add',(req,res)=>{
-    console.log('add comment');
     addComment(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -541,7 +525,6 @@ expressApp.post('/comment/getone',(req,res)=>{
 });
 
 expressApp.get('/novel/get',(req,res)=>{
-    console.log('get novel');
     getallNovels()
         .then(result => {
            
@@ -552,7 +535,6 @@ expressApp.get('/novel/get',(req,res)=>{
         })
 });
 expressApp.post('/novel/getone',(req,res)=>{
-    console.log('find novel');
     getOneNovel(req.body)
         .then(result => {
             
@@ -563,10 +545,8 @@ expressApp.post('/novel/getone',(req,res)=>{
         })
 });
 expressApp.post('/wish/getone',(req,res)=>{
-    console.log('find novel');
     getForWish(req.body)
         .then(result => {
-            console.log(result)
             res.status(200).json(result);
         })
         .catch(err => {
@@ -574,10 +554,8 @@ expressApp.post('/wish/getone',(req,res)=>{
         })
 });
 expressApp.post('/user/wish',(req,res)=>{
-    console.log('get wish novel');
     getSomeWish(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -585,11 +563,8 @@ expressApp.post('/user/wish',(req,res)=>{
         })
 });
 expressApp.post('/novel/comment',(req,res)=>{
-    console.log('get comment');
-    console.log(req.body)
     getSomeComment(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -597,10 +572,8 @@ expressApp.post('/novel/comment',(req,res)=>{
         })
 });
 expressApp.delete('/novel/delete',(req,res)=>{
-    console.log('delete novel');
     deleteNovels(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -608,11 +581,8 @@ expressApp.delete('/novel/delete',(req,res)=>{
         })
 });
 expressApp.delete('/wish/delete',(req,res)=>{
-    console.log('delete novel');
-    console.log(req.body)
     deleteWishs(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -620,11 +590,8 @@ expressApp.delete('/wish/delete',(req,res)=>{
         })
 });
 expressApp.put('/novel/update',(req,res)=>{
-    console.log('update novel');
-    console.log(req.body);
     updateNovel(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
@@ -632,10 +599,8 @@ expressApp.put('/novel/update',(req,res)=>{
         })
 });
 expressApp.put('/comment/update',(req,res)=>{
-    console.log('update comment');
     updateComment(req.body)
         .then(result => {
-            console.log(result);
             res.status(200).json(result);
         })
         .catch(err => {
