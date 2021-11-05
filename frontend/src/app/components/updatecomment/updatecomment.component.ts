@@ -41,7 +41,10 @@ export class UpdatecommentComponent implements OnInit {
   }
 
   clickupdatecommnet(){
-    this.ps.updateComment(this.updateCommentForm.value).subscribe(
+    if(this.updateCommentForm.value.comment == ''){
+      alert('โปรดกรอก comment ก่อนยืนยัน');
+    }else{
+      this.ps.updateComment(this.updateCommentForm.value).subscribe(
       data =>{
         console.log(data)
         alert('comment update successfully');
@@ -51,6 +54,8 @@ export class UpdatecommentComponent implements OnInit {
         console.log(err);
       }
     );
+    }
+     
   }
   backpage(){
     this.router.navigate(['/shownovel']);
