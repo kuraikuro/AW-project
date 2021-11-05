@@ -50,7 +50,8 @@ export class CommentComponent implements OnInit {
   }
 
   addComment(){
-    this.ns.addComment(this.commentForm.value).subscribe(
+    if(this.commentForm.value.comment == ''){ alert('โปรดกรอก comment ก่อนยืนยัน');
+  }else{this.ns.addComment(this.commentForm.value).subscribe(
       data => {
         console.log(this.commentForm.value)
         console.log(data)
@@ -63,7 +64,8 @@ export class CommentComponent implements OnInit {
       err =>{
         console.log(err);
       }
-    )
+    );}
+    
     
   }
 
