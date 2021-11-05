@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NovelService } from 'src/app/services/novel.service';
 
@@ -13,9 +13,17 @@ export class SigninComponent implements OnInit {
   userData!: number;
   homepageData!: number;
   userForm = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
+    username: new FormControl('',[Validators.required]),
+    password: new FormControl('',[Validators.required]),
   })
+
+  get username() { 
+    return this.userForm.get('username'); 
+  }
+
+  get password() { 
+    return this.userForm.get('password'); 
+  }
 
   constructor( private user:NovelService, private router:Router ) { }
 
